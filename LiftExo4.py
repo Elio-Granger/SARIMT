@@ -10,6 +10,7 @@ import threading
 
 globstop = 0
 
+
 class MyTimer:
     global globstop
     
@@ -30,7 +31,7 @@ class MyTimer:
         
         self._timer = threading.Timer(self._tempo, self._run)
         self._timer.start()
-    
+
     def stop(self):
         self._timer.cancel()
 
