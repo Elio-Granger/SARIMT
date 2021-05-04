@@ -5,6 +5,7 @@ import tkinter.ttk as ttk
 import time
 import sys
 from random import randint
+import Louis
 
 import threading
 
@@ -45,6 +46,8 @@ class Lift:
 
         self.CreerEtage()
         self.CreerElevator()
+        self.newWindow = tk.Toplevel(self.master)
+        self.Louis = Louis.Defaillance(self.newWindow)
 
         self.buttonA = tk.Button(self.frame, text = 'Alarm')
         self.buttonA.pack()
