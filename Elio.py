@@ -375,11 +375,26 @@ class Elevator:
         self.button2.pack()
         self.button2.configure(style="Orange.TButton")
 
+        self.frame1 = tk.Frame(self.frame)
+        # self.frame.config(width="400", height="400")
+        # self.frame1.config(width="100", height="50")
+
+
         self.button1 = ttk.Button(self.frame, text = '#_1_#')
         self.button1.configure(style="Black.TButton")
-        self.button1.pack()
-
-        self.master.geometry("+400+200")
+        #self.button1.place(x=0,y=0)
+        # self.button1.pack(side='top', anchor='center', expand=True)
+        self.button1.pack(side=tk.LEFT)
+        self.button1_back = ttk.Button(self.frame,text='B')
+        self.button1_back.pack(side=tk.RIGHT)
+        #self.button1_back.place(x=30, y=0)
+        # self.button_back1.pack(side='top', anchor='w', expand=True)
+        self.button1_front = ttk.Button(self.frame,text='F')
+        self.button1_front.pack(side =tk.RIGHT)
+        #self.button1_front.place(x=-30, y=0)
+        # self.button_front1.pack(side='top', anchor='e', expand=True)
+        self.frame.pack(expand=True)
+        self.master.geometry("+400+400")
 
         self.frame.pack()
 
