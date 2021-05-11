@@ -21,7 +21,10 @@ class Defaillance:
 
         self.frame.pack()
 
+    def def2(self):
+        Main.mauvaisetage = True
 
+""""
     class Etages(Main.Lift):
         def __init__(self, master, Lift):
             self.master = master
@@ -60,6 +63,4 @@ class Defaillance:
 
         def close_windows(self):
             self.master.destroy()
-
-    def def2(self):
-        Main.mauvaisetage=True
+"""

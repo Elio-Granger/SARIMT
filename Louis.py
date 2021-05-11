@@ -2,6 +2,11 @@ import tkinter as tk
 import Main
 
 class Defaillance:
+    portes_ouvertes = 0
+    portes_bloquees = False
+    PORTES_UN_PEU_OUVERTES = 0.5  # à 1 les portes sont complétement ouvertes, à 0 elles sont fermées
+    AUTORISATION_PORTES_OUVERTES = 0.0025  #on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
+
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
@@ -22,18 +27,23 @@ class Defaillance:
         self.frame.pack()
 
     def fPortes(self):
-        Main.portes_ouvertes=0
+        global portes_ouvertes
+        portes_ouvertes=0
 
     def ouvPortes(self):
-        Main.portes_ouvertes=1
+        global portes_ouvertes
+        portes_ouvertes=1
 
     def ouvUnPeuPortes(self):
-        Main.portes_ouvertes = Main.PORTES_UN_PEU_OUVERTES
+        global portes_ouvertes, PORTES_UN_PEU_OUVERTES
+        portes_ouvertes = PORTES_UN_PEU_OUVERTES
 
     def bloquerPortes(self):
-        Main.portes_bloquees=True
+        global portes_bloquees
+        portes_bloquees=True
 
 
     def debloquerPortes(self):
-        Main.portes_bloquees=False
+        global portes_bloquees
+        portes_bloquees=False
 

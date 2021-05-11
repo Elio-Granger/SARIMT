@@ -2,7 +2,6 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-import time
 import sys
 from random import randint
 import Louis
@@ -12,10 +11,8 @@ import threading
 
 globstop = 0
 mauvaisetage=False
-portes_ouvertes=0
-portes_bloquees=False
-PORTES_UN_PEU_OUVERTES=0.5  #à 1 les portes sont complétement ouvertes, à 0 elles sont fermées
-AUTORISATION_PORTES_OUVERTES=0.0025   #on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
+portes_ouvertes = 0
+portes_bloquees = False
 
 class MyTimer:
     global globstop
@@ -42,7 +39,7 @@ class MyTimer:
         self._timer.cancel()
 
 
-class Lift:
+class Lift():
     global portes_ouvertes, portes_bloquees
     def __init__(self, master):
         self.master = master
@@ -85,8 +82,8 @@ class Lift:
     def Aller5(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not portes_bloquees:
-                portes_ouvertes=0
+            if not Louis.Defaillance.portes_bloquees:
+                Louis.Defaillance.portes_ouvertes=0
             self.target[self.CurPos]=5
             self.CurPos = self.CurPos+1
             if self.CurPos==5:
@@ -95,8 +92,8 @@ class Lift:
     def Aller4(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not portes_bloquees:
-                portes_ouvertes=0
+            if not Louis.Defaillance.portes_bloquees:
+                Louis.Defaillance.portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=4
             self.CurPos = self.CurPos+1
@@ -106,8 +103,8 @@ class Lift:
     def Aller3(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not portes_bloquees:
-                portes_ouvertes=0
+            if not Louis.Defaillance.portes_bloquees:
+                Louis.Defaillance.portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=3
             self.CurPos = self.CurPos+1
@@ -117,8 +114,8 @@ class Lift:
     def Aller2(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not portes_bloquees:
-                portes_ouvertes=0
+            if not Louis.Defaillance.portes_bloquees:
+                Louis.Defaillance.portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=2
             self.CurPos = self.CurPos+1
@@ -128,8 +125,8 @@ class Lift:
     def Aller1(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not portes_bloquees:
-                portes_ouvertes=0
+            if not Louis.Defaillance.portes_bloquees:
+                Louis.Defaillance.portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=1
             self.CurPos = self.CurPos+1
@@ -150,9 +147,13 @@ class Lift:
         self.newWindow = tk.Toplevel(self.master)
         self.Elevator = Elevator(self.newWindow)
 
+
     def move(self):
-        global portes_ouvertes, AUTORISATION_PORTES_OUVERTES
-        if portes_ouvertes>=AUTORISATION_PORTES_OUVERTES:
+        global portes_ouvertes
+
+        self.UpdateVariables()
+
+        if portes_ouvertes>=Louis.Defaillance.AUTORISATION_PORTES_OUVERTES:
             return
 # comment out for exam
 #        print self.curMouvement
@@ -184,8 +185,8 @@ class Lift:
                     self.curMouvement='p'
                     self.target[self.CurServed]=0
                     self.CurServed=self.CurServed+1
-                    if not portes_bloquees:
-                        portes_ouvertes = 1
+                    if not Louis.Defaillance.portes_bloquees:
+                        Louis.Defaillance.portes_ouvertes = 1
                         print("portes ouvertes")
                     if self.CurServed==5:
                         self.CurServed=0
@@ -196,8 +197,8 @@ class Lift:
                     self.curMouvement='p'
                     self.target[self.CurServed]=0
                     self.CurServed=self.CurServed+1
-                    if not portes_bloquees:
-                        portes_ouvertes = 1
+                    if not Louis.Defaillance.portes_bloquees:
+                        Louis.Defaillance.portes_ouvertes = 1
                         print("portes ouvertes")
                     if self.CurServed==5:
                         self.CurServed=0
@@ -220,8 +221,14 @@ class Lift:
                         self.CurServed=0
                     else:
                         self.CurServed=self.CurServed+1
-    
-                        
+
+
+    def UpdateVariables(self):
+        global portes_ouvertes, portes_bloquees
+        self.portes_bloquees=Louis.Defaillance.portes_bloquees
+        self.portes_ouvertes=Louis.Defaillance.portes_ouvertes
+        print(Louis.Defaillance.portes_bloquees)
+
     def UpdateColor(self):
 #        print "UpdateColor", self.curMouvement, self.CurEtage
         if self.curMouvement=='0':
@@ -256,32 +263,32 @@ class Lift:
                 self.Elevator.Noir4()
                 self.Elevator.Rouge5()
 
-        if self.curMouvement=='p':
+        elif self.curMouvement=='p':
             if self.CurEtage == 1:
                 self.Elevator.Vert1()
                 self.Elevator.Noir2()
                 self.Elevator.Noir3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 2:
+            elif self.CurEtage == 2:
                 self.Elevator.Noir1()
                 self.Elevator.Vert2()
                 self.Elevator.Noir3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 3:
+            elif self.CurEtage == 3:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Vert3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 4:
+            elif self.CurEtage == 4:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Noir3()
                 self.Elevator.Vert4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 5:
+            elif self.CurEtage == 5:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Noir3()
@@ -289,26 +296,26 @@ class Lift:
                 self.Elevator.Vert5()
 
 
-        if self.curMouvement=='+':
+        elif self.curMouvement=='+':
             if self.CurEtage == 1:
                 self.Elevator.Orange1()
                 self.Elevator.Bleu2()
                 self.Elevator.Noir3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 2:
+            elif self.CurEtage == 2:
                 self.Elevator.Noir1()
                 self.Elevator.Orange2()
                 self.Elevator.Bleu3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 3:
+            elif self.CurEtage == 3:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Orange3()
                 self.Elevator.Bleu4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 4:
+            elif self.CurEtage == 4:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Noir3()
@@ -316,26 +323,26 @@ class Lift:
                 self.Elevator.Bleu5()
 
 
-        if self.curMouvement=='-':
+        elif self.curMouvement=='-':
             if self.CurEtage == 2:
                 self.Elevator.Bleu1()
                 self.Elevator.Orange2()
                 self.Elevator.Noir3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 3:
+            elif self.CurEtage == 3:
                 self.Elevator.Noir1()
                 self.Elevator.Bleu2()
                 self.Elevator.Orange3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 4:
+            elif self.CurEtage == 4:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Bleu3()
                 self.Elevator.Orange4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 5:
+            elif self.CurEtage == 5:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Noir3()
@@ -557,6 +564,8 @@ class Elevator:
     
         self.button1.configure(style="Black.TButton")
         self.button1.pack()
+
+
 
 
 
