@@ -11,7 +11,8 @@ import Eloïse
 import threading
 
 globstop = 0
-portes_ouvertes=1
+mauvaisetage=False
+portes_ouvertes=0
 portes_bloquees=False
 PORTES_UN_PEU_OUVERTES=0.5  #à 1 les portes sont complétement ouvertes, à 0 elles sont fermées
 AUTORISATION_PORTES_OUVERTES=0.0025   #on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
@@ -139,7 +140,10 @@ class Lift:
 
     def CreerEtage(self):
         self.newWindow = tk.Toplevel(self.master)
-        self.Etages = Etages(self.newWindow,self)
+        if mauvaisetage==True:
+            self.Etages = Eloïse.Etages(self.newWindow,self)
+        else:
+            self.Etages = Etages(self.newWindow, self)
 
     def CreerElevator(self):
 
