@@ -15,8 +15,8 @@ class Defaillance:
 
         self.master.title('Defaillances Eloïse')
 
-        self.button1 = tk.Button(self.frame, text='2e defaillance: mauvais étage', command=Defaillance.def2)
-        self.button1.pack()
+        self.button2 = tk.Button(self.frame, text='2e defaillance: mauvais étage', command=Defaillance.def2)
+        self.button2.pack()
 
         self.frame.pack()
 
