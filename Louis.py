@@ -16,8 +16,7 @@ class Defaillance:
         self.button3.pack()
         self.button4 = tk.Button(self.frame, text='bloquer les portes', command=self.bloquerPortes)
         self.button4.pack()
-        self.button5 = tk.Button(self.frame, text='debloquer les portes manuellement',
-                                 command=self.debloquerPortes)
+        self.button5 = tk.Button(self.frame, text='debloquer les portes manuellement',command=self.debloquerPortes)
         self.button5.pack()
 
         self.frame.pack()

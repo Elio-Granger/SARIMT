@@ -1,6 +1,7 @@
 #!/opt/local/bin/python
 
 import tkinter as tk
+import Main
 import tkinter.ttk as ttk
 import time
 import sys
@@ -15,13 +16,13 @@ class Defaillance:
 
         self.master.title('Defaillances Eloïse')
 
-        self.button2 = tk.Button(self.frame, text='2e defaillance: mauvais étage', command=Defaillance.def2)
+        self.button2 = tk.Button(self.frame, text='2e defaillance: mauvais étage', command=self.def2)
         self.button2.pack()
 
         self.frame.pack()
 
     def def2(self):
-        class Etages(Lift):
+        class Etages(Main.Lift):
             def __init__(self, master, Lift):
                 self.master = master
                 self.frame = tk.Frame(self.master)
