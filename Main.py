@@ -10,6 +10,10 @@ import Louis
 import threading
 
 globstop = 0
+portes_ouvertes=1
+portes_bloquees=False
+PORTES_UN_PEU_OUVERTES=0.5  #à 1 les portes sont complétement ouvertes, à 0 elles sont fermées
+AUTORISATION_PORTES_OUVERTES=0.0025   #on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
 
 class MyTimer:
     global globstop
@@ -37,12 +41,12 @@ class MyTimer:
 
 
 class Lift:
+    global portes_ouvertes, portes_bloquees
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
 
         self.master.title('ascenseur')
-
 
         self.CreerEtage()
         self.CreerElevator()
@@ -71,37 +75,57 @@ class Lift:
         self.CurPos=0
         self.CurServed=0
         self.CurTempo=0
+        self.UpdateColor()
 
     def Aller5(self):
+        global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
+            if not portes_bloquees:
+                portes_ouvertes=0
             self.target[self.CurPos]=5
             self.CurPos = self.CurPos+1
             if self.CurPos==5:
                 self.CurPos=0
 
     def Aller4(self):
+        global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
+            if not portes_bloquees:
+                portes_ouvertes=0
+                print("portes fermées")
             self.target[self.CurPos]=4
             self.CurPos = self.CurPos+1
             if self.CurPos==5:
                 self.CurPos=0
 
     def Aller3(self):
+        global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
+            if not portes_bloquees:
+                portes_ouvertes=0
+                print("portes fermées")
             self.target[self.CurPos]=3
             self.CurPos = self.CurPos+1
             if self.CurPos==5:
                 self.CurPos=0
 
     def Aller2(self):
+        global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
+            if not portes_bloquees:
+                portes_ouvertes=0
+                print("portes fermées")
             self.target[self.CurPos]=2
             self.CurPos = self.CurPos+1
             if self.CurPos==5:
                 self.CurPos=0
 
     def Aller1(self):
+        global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
+            if not portes_bloquees:
+                portes_ouvertes=0
+                print("portes fermées")
             self.target[self.CurPos]=1
             self.CurPos = self.CurPos+1
             if self.CurPos==5:
@@ -119,6 +143,9 @@ class Lift:
         self.Elevator = Elevator(self.newWindow)
 
     def move(self):
+        global portes_ouvertes, AUTORISATION_PORTES_OUVERTES
+        if portes_ouvertes>=AUTORISATION_PORTES_OUVERTES:
+            return
 # comment out for exam
 #        print self.curMouvement
 #        print self.CurEtage
@@ -127,9 +154,11 @@ class Lift:
 #        print self.target
 
         if self.CurEtage > 5:
+            print("self.CurEtage > 5")
             self.CurEtage=5
             self.curMouvement='0'
         if self.CurEtage < 1:
+            print("self.CurEtage < 1")
             self.CurEtage=1
             self.curMouvement='0'
 
@@ -147,6 +176,9 @@ class Lift:
                     self.curMouvement='p'
                     self.target[self.CurServed]=0
                     self.CurServed=self.CurServed+1
+                    if not portes_bloquees:
+                        portes_ouvertes = 1
+                        print("portes ouvertes")
                     if self.CurServed==5:
                         self.CurServed=0
                         self.target[self.CurPos]=randint(0,5)
@@ -156,6 +188,9 @@ class Lift:
                     self.curMouvement='p'
                     self.target[self.CurServed]=0
                     self.CurServed=self.CurServed+1
+                    if not portes_bloquees:
+                        portes_ouvertes = 1
+                        print("portes ouvertes")
                     if self.CurServed==5:
                         self.CurServed=0
                         self.target[self.CurServed]=randint(0,5)
@@ -188,25 +223,25 @@ class Lift:
                 self.Elevator.Noir3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 2:
+            elif self.CurEtage == 2:
                 self.Elevator.Noir1()
                 self.Elevator.Rouge2()
                 self.Elevator.Noir3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 3:
+            elif self.CurEtage == 3:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Rouge3()
                 self.Elevator.Noir4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 4:
+            elif self.CurEtage == 4:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Noir3()
                 self.Elevator.Rouge4()
                 self.Elevator.Noir5()
-            if self.CurEtage == 5:
+            elif self.CurEtage == 5:
                 self.Elevator.Noir1()
                 self.Elevator.Noir2()
                 self.Elevator.Noir3()
