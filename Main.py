@@ -6,6 +6,7 @@ import time
 import sys
 from random import randint
 import Louis
+import Eloïse
 
 import threading
 
