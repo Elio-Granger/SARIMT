@@ -50,6 +50,9 @@ class Lift:
         self.newWindow = tk.Toplevel(self.master)
         self.Louis = Louis.Defaillance(self.newWindow)
 
+        self.newWindow2 = tk.Toplevel(self.master)
+        self.Eloise = Eloïse.Defaillance(self.newWindow2)
+
         self.buttonA = tk.Button(self.frame, text = 'Alarm')
         self.buttonA.pack()
 
