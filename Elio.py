@@ -10,6 +10,93 @@ import threading
 
 globstop = 0
 
+class Double_porte() :
+
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.portes = [0,0,0,0,0]
+
+        self.master.title('Defaillances double portes Elio')
+
+        self.display = tk.Label(self.frame, text='Choose on which side the door is')
+        self.display.pack()
+
+        plus = ttk.Style()
+        plus.configure("TButton", padding=(0, 5, 0, 5))
+        plus.configure("chosen.TButton",foreground='green')
+        plus.configure("unchosen.TButton", foreground='red')
+
+#continuer -> rajouter les boutons de l'étage 4-5
+        # ----------------------(Buttons 3)---------------------- #
+        self.frame3 = tk.Frame(self.frame)
+        self.button3L = ttk.Button(self.frame3, text='Left')
+        self.button3R = ttk.Button(self.frame3, text='Right')
+        self.button3R.configure(command=self.porte_R3)
+        self.button3L.configure(command=self.porte_L3)
+        self.display_3 = tk.Label(self.frame3, text='  #_3_#  ')
+
+        self.button3L.pack(side=tk.LEFT)
+        self.button3R.pack(side=tk.RIGHT)
+        self.display_3.pack(side=tk.RIGHT)
+        self.frame3.pack(expand=True)
+        # ----------------------(Buttons 2)---------------------- #
+        self.frame2 = tk.Frame(self.frame)
+        self.button2L = ttk.Button(self.frame2, text='Left')
+        self.button2R = ttk.Button(self.frame2, text='Right')
+        self.button2R.configure(command=self.porte_R2)
+        self.button2L.configure(command=self.porte_L2)
+        self.display_2 = tk.Label(self.frame2, text='  #_2_#  ')
+
+        self.button2L.pack(side=tk.LEFT)
+        self.button2R.pack(side=tk.RIGHT)
+        self.display_2.pack(side=tk.RIGHT)
+        self.frame2.pack(expand=True)
+        # ----------------------(Buttons 1)---------------------- #
+        self.frame1 = tk.Frame(self.frame)
+        self.button1L = ttk.Button(self.frame1, text='Left')
+        self.button1R = ttk.Button(self.frame1, text='Right')
+        self.button1R.configure(command=self.porte_R1)
+        self.button1L.configure(command=self.porte_L1)
+        self.display_1 = tk.Label(self.frame1, text='  #_1_#  ')
+
+        self.button1L.pack(side=tk.LEFT)
+        self.button1R.pack(side=tk.RIGHT)
+        self.display_1.pack(side=tk.RIGHT)
+        self.frame1.pack(expand=True)
+
+        self.frame.pack()
+
+
+    def button_color(self,buttonv,buttonuv):
+        buttonv.configure(style="chosen.TButton")
+        buttonuv.configure(style='unchosen.TButton')
+
+    def porte_R1(self):
+        self.portes[0]=1
+        self.button_color(self.button1R,self.button1L)
+
+    def porte_L1(self):
+        self.portes[0]=0
+        self.button_color(self.button1L,self.button1R)
+
+    def porte_R2(self):
+        self.portes[1]=1
+        self.button_color(self.button2R,self.button2L)
+
+    def porte_L2(self):
+        self.portes[1]=0
+        self.button_color(self.button2L,self.button2R)
+
+    def porte_R3(self):
+        self.portes[2]=1
+        self.button_color(self.button3R,self.button3L)
+
+    def porte_L3(self):
+        self.portes[2]=0
+        self.button_color(self.button3L,self.button3R)
+
+
 class MyTimer:
     global globstop
     
@@ -346,6 +433,8 @@ class Elevator:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.new_window = tk.Toplevel(self.master)
+        self.portes = Double_porte(self.new_window)
 
         self.master.title('Position')
 
