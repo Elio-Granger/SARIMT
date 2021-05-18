@@ -4,15 +4,18 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import sys
 from random import randint
-import Louis
 import Eloïse
 
 import threading
 
 globstop = 0
 mauvaisetage=False
-portes_ouvertes = 0
+portes_ouvertes = 0     # à 1 les portes sont complétement ouvertes, à 0 elles sont fermées
 portes_bloquees = False
+PORTES_UN_PEU_OUVERTES = 0.5  # à quelle proportion les portes s'ouvrent lorsqu'on clique sur le bouton associé
+AUTORISATION_PORTES_OUVERTES = 0.0025  #on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
+
+
 
 class MyTimer:
     global globstop
@@ -49,8 +52,7 @@ class Lift():
 
         self.CreerEtage()
         self.CreerElevator()
-        self.newWindow = tk.Toplevel(self.master)
-        self.Louis = Louis.Defaillance(self.newWindow)
+        self.CreerLouis()
 
         self.newWindow2 = tk.Toplevel(self.master)
         self.Eloise = Eloïse.Defaillance(self.newWindow2)
@@ -94,8 +96,8 @@ class Lift():
     def Aller5(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not Louis.Defaillance.portes_bloquees:
-                Louis.Defaillance.portes_ouvertes=0
+            if not portes_bloquees:
+                portes_ouvertes=0
             self.target[self.CurPos]=5
             self.CurPos = self.CurPos+1
             if self.CurPos==5:
@@ -104,8 +106,8 @@ class Lift():
     def Aller4(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not Louis.Defaillance.portes_bloquees:
-                Louis.Defaillance.portes_ouvertes=0
+            if not portes_bloquees:
+                portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=4
             self.CurPos = self.CurPos+1
@@ -115,8 +117,8 @@ class Lift():
     def Aller3(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not Louis.Defaillance.portes_bloquees:
-                Louis.Defaillance.portes_ouvertes=0
+            if not portes_bloquees:
+                portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=3
             self.CurPos = self.CurPos+1
@@ -126,8 +128,8 @@ class Lift():
     def Aller2(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not Louis.Defaillance.portes_bloquees:
-                Louis.Defaillance.portes_ouvertes=0
+            if not portes_bloquees:
+                portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=2
             self.CurPos = self.CurPos+1
@@ -137,8 +139,8 @@ class Lift():
     def Aller1(self):
         global portes_ouvertes, portes_bloquees
         if self.CurPos < 5 :
-            if not Louis.Defaillance.portes_bloquees:
-                Louis.Defaillance.portes_ouvertes=0
+            if not portes_bloquees:
+                portes_ouvertes=0
                 print("portes fermées")
             self.target[self.CurPos]=1
             self.CurPos = self.CurPos+1
@@ -159,13 +161,14 @@ class Lift():
         self.newWindow = tk.Toplevel(self.master)
         self.Elevator = Elevator(self.newWindow)
 
+    def CreerLouis(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.DefaillanceLouis = DefaillanceLouis(self.newWindow)
 
     def move(self):
         global portes_ouvertes
 
-        self.UpdateVariables()
-
-        if portes_ouvertes>=Louis.Defaillance.AUTORISATION_PORTES_OUVERTES:
+        if portes_ouvertes>=AUTORISATION_PORTES_OUVERTES:
             return
 # comment out for exam
 #        print self.curMouvement
@@ -197,8 +200,8 @@ class Lift():
                     self.curMouvement='p'
                     self.target[self.CurServed]=0
                     self.CurServed=self.CurServed+1
-                    if not Louis.Defaillance.portes_bloquees:
-                        Louis.Defaillance.portes_ouvertes = 1
+                    if not portes_bloquees:
+                        portes_ouvertes = 1
                         print("portes ouvertes")
                     if self.CurServed==5:
                         self.CurServed=0
@@ -209,8 +212,8 @@ class Lift():
                     self.curMouvement='p'
                     self.target[self.CurServed]=0
                     self.CurServed=self.CurServed+1
-                    if not Louis.Defaillance.portes_bloquees:
-                        Louis.Defaillance.portes_ouvertes = 1
+                    if not portes_bloquees:
+                        portes_ouvertes = 1
                         print("portes ouvertes")
                     if self.CurServed==5:
                         self.CurServed=0
@@ -234,12 +237,6 @@ class Lift():
                     else:
                         self.CurServed=self.CurServed+1
 
-
-    def UpdateVariables(self):
-        global portes_ouvertes, portes_bloquees
-        self.portes_bloquees=Louis.Defaillance.portes_bloquees
-        self.portes_ouvertes=Louis.Defaillance.portes_ouvertes
-        print(Louis.Defaillance.portes_bloquees)
 
     def UpdateColor(self):
 #        print "UpdateColor", self.curMouvement, self.CurEtage
@@ -579,6 +576,49 @@ class Elevator:
 
 
 
+class DefaillanceLouis:
+
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+
+        self.master.title('Defaillances Louis')
+
+        self.button1 = tk.Button(self.frame, text='fermer les portes manuellement', command=self.fPortes)
+        self.button1.pack()
+        self.button2 = tk.Button(self.frame, text='ouvrir les portes manuellement', command=self.ouvPortes)
+        self.button2.pack()
+        self.button3 = tk.Button(self.frame, text='ouvrir un peu les portes manuellement', command=self.ouvUnPeuPortes)
+        self.button3.pack()
+        self.button4 = tk.Button(self.frame, text='bloquer les portes', command=self.bloquerPortes)
+        self.button4.pack()
+        self.button5 = tk.Button(self.frame, text='debloquer les portes manuellement',command=self.debloquerPortes)
+        self.button5.pack()
+
+        self.frame.pack()
+
+    def fPortes(self):
+        global portes_ouvertes
+        portes_ouvertes=0
+
+    def ouvPortes(self):
+        global portes_ouvertes
+        portes_ouvertes=1
+
+    def ouvUnPeuPortes(self):
+        global portes_ouvertes, PORTES_UN_PEU_OUVERTES
+        portes_ouvertes = PORTES_UN_PEU_OUVERTES
+
+    def bloquerPortes(self):
+        global portes_bloquees
+        portes_bloquees=True
+
+
+    def debloquerPortes(self):
+        global portes_bloquees
+        portes_bloquees=False
+
+
 
 
 def main(): 
@@ -591,3 +631,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
