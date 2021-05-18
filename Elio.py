@@ -358,42 +358,80 @@ class Elevator:
         style.configure("Orange.TButton",foreground='orange')
         style.configure("Black.Tbutton",foreground='black')
 
+# ----------------------(Buttons 5)---------------------- #
+        self.frame5 = tk.Frame(self.frame)
 
-        self.button5 = ttk.Button(self.frame, text = '#_5_#')
+        self.button5 = ttk.Button(self.frame5, text='#_5_#')
+        self.button5_back = ttk.Button(self.frame5, text='B5')
+        self.button5_front = ttk.Button(self.frame5, text='F5')
+
+        self.button5_back.pack(side=tk.LEFT)
+        self.button5_front.pack(side=tk.RIGHT)
+        self.button5.pack(side=tk.RIGHT)
+
         self.button5.configure(style="Red.TButton")
-        self.button5.pack()
 
-        self.button4 = ttk.Button(self.frame, text = '#_4_#')
+        self.frame5.pack(expand=True)
+# ----------------------(Buttons 4)---------------------- #
+
+        self.frame4 = tk.Frame(self.frame)
+
+        self.button4 = ttk.Button(self.frame4, text = '#_4_#')
+        self.button4_back = ttk.Button(self.frame4, text='B4')
+        self.button4_front = ttk.Button(self.frame4, text='F4')
+
+        self.button4_back.pack(side=tk.LEFT)
+        self.button4_front.pack(side=tk.RIGHT)
+        self.button4.pack(side=tk.RIGHT)
+
+
         self.button4.configure(style="Blue.TButton")
-        self.button4.pack()
- 
-        self.button3 = ttk.Button(self.frame, text = '#_3_#')
-        self.button3.configure(style="Green.TButton") 
-        self.button3.pack()
 
-        self.button2 = ttk.Button(self.frame, text = '#_2_#')
-        self.button2.pack()
+        self.frame4.pack(expand=True)
+# ----------------------(Buttons 3)---------------------- #
+
+        self.frame3 = tk.Frame(self.frame)
+
+        self.button3 = ttk.Button(self.frame3, text = '#_3_#')
+        self.button3_back = ttk.Button(self.frame3, text='B3')
+        self.button3_front = ttk.Button(self.frame3, text='F3')
+
+        self.button3_back.pack(side=tk.LEFT)
+        self.button3_front.pack(side=tk.RIGHT)
+        self.button3.pack(side=tk.RIGHT)
+
+        self.button3.configure(style="Green.TButton")
+
+        self.frame3.pack(expand=True)
+# ----------------------(Buttons 2)---------------------- #
+
+        self.frame2 = tk.Frame(self.frame)
+
+        self.button2 = ttk.Button(self.frame2, text = '#_2_#')
+        self.button2_back = ttk.Button(self.frame2, text='B2')
+        self.button2_front = ttk.Button(self.frame2, text='F2')
+
+        self.button2_back.pack(side=tk.LEFT)
+        self.button2_front.pack(side=tk.RIGHT)
+        self.button2.pack(side=tk.RIGHT)
+
         self.button2.configure(style="Orange.TButton")
 
+        self.frame2.pack(expand=True)
+# ----------------------(Buttons 1)---------------------- #
         self.frame1 = tk.Frame(self.frame)
-        # self.frame.config(width="400", height="400")
-        # self.frame1.config(width="100", height="50")
 
+        self.button1 = ttk.Button(self.frame1, text = '#_1_#')
+        self.button1_back = ttk.Button(self.frame1, text='B1')
+        self.button1_front = ttk.Button(self.frame1, text='F1')
 
-        self.button1 = ttk.Button(self.frame, text = '#_1_#')
         self.button1.configure(style="Black.TButton")
-        #self.button1.place(x=0,y=0)
-        # self.button1.pack(side='top', anchor='center', expand=True)
-        self.button1.pack(side=tk.LEFT)
-        self.button1_back = ttk.Button(self.frame,text='B')
-        self.button1_back.pack(side=tk.RIGHT)
-        #self.button1_back.place(x=30, y=0)
-        # self.button_back1.pack(side='top', anchor='w', expand=True)
-        self.button1_front = ttk.Button(self.frame,text='F')
-        self.button1_front.pack(side =tk.RIGHT)
-        #self.button1_front.place(x=-30, y=0)
-        # self.button_front1.pack(side='top', anchor='e', expand=True)
-        self.frame.pack(expand=True)
+
+        self.button1_back.pack(side=tk.LEFT)
+        self.button1_front.pack(side=tk.RIGHT)
+        self.button1.pack(side=tk.RIGHT)
+
+        self.frame1.pack(expand=True)
         self.master.geometry("+400+400")
 
         self.frame.pack()
