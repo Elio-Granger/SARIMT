@@ -91,18 +91,12 @@ class Lift():
         global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 4
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 5
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -112,18 +106,12 @@ class Lift():
         global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 3
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 4
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -133,18 +121,12 @@ class Lift():
         global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 2
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 3
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -154,18 +136,12 @@ class Lift():
         global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 1
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 2
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -175,18 +151,12 @@ class Lift():
         global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 5
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
-                if not portes_bloquees:
-                    portes_ouvertes = 0
-                    print("portes fermées")
                 self.target[self.CurPos] = 1
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -211,16 +181,14 @@ class Lift():
     def move(self):
         global portes_ouvertes, bouge_portes_ouvertes
 
-        print(self.target)
-        print(self.curMouvement)
 
 
         # comment out for exam
-        print("curMouvement "+self.curMouvement)
-        print("curEtage ",self.CurEtage)
+        #print("curMouvement "+self.curMouvement)
+        #print("curEtage ",self.CurEtage)
         #print("CurTempo"+self.CurTempo)
-        print("CurPos: ",self.CurPos,"  /  CurServed: ", self.CurServed)
-        print("target ",self.target)
+        #print("CurPos: ",self.CurPos,"  /  CurServed: ", self.CurServed)
+        #print("target ",self.target)
 
         if self.CurEtage > 5:
             print("self.CurEtage > 5")
@@ -235,6 +203,12 @@ class Lift():
 
             self.CurTempo = self.CurTempo + 1
         if self.CurTempo == 50 or self.CurTempo == 0:  # permet de donner une notion de temps entre les etages
+
+            print("curMouvement " + self.curMouvement)
+            print("curEtage ", self.CurEtage)
+            # print("CurTempo"+self.CurTempo)
+            print("CurPos: ", self.CurPos, "  /  CurServed: ", self.CurServed)
+            print("target ", self.target)
 
             if self.curMouvement == 'p':
                 self.curMouvement = '0'
@@ -252,7 +226,7 @@ class Lift():
                             self.CurServed = 0
                         else:
                             self.CurServed = self.CurServed + 1
-                            print(self.CurServed)
+
 
 
 
@@ -263,22 +237,15 @@ class Lift():
                         self.curMouvement = 'p'
                         self.target[self.CurServed] = 0
                         self.CurServed = self.CurServed + 1
-                        if not portes_bloquees:
-                            portes_ouvertes = 1
-                            print("portes ouvertes")
                         if self.CurServed == 10:
                             self.CurServed = 0
                             # self.target[self.CurPos] = randint(0, 5)   #pas compris cette ligne
                 if self.curMouvement == '-':
-                    print("test")
                     self.CurEtage = self.CurEtage - 1
                     if self.CurEtage == self.target[self.CurServed]:
                         self.curMouvement = 'p'
                         self.target[self.CurServed] = 0
                         self.CurServed = self.CurServed + 1
-                        if not portes_bloquees:
-                            portes_ouvertes = 1
-                            print("portes ouvertes")
                         if self.CurServed == 10:
                             self.CurServed = 0
                             # self.target[self.CurServed] = randint(0, 5)    #pas compris cette ligne
@@ -288,8 +255,11 @@ class Lift():
 
 
     def UpdateColor(self):
+        global portes_ouvertes, portes_bloquees
         #        print "UpdateColor", self.curMouvement, self.CurEtage
         if self.curMouvement == '0':
+            if portes_bloquees==False:
+                portes_ouvertes=0
             if self.CurEtage == 1:
                 self.Elevator.rouge1()
                 self.Elevator.noir2()
@@ -322,6 +292,8 @@ class Lift():
                 self.Elevator.rouge5()
 
         elif self.curMouvement == 'p':
+            if portes_bloquees==False:
+                portes_ouvertes=1
             if self.CurEtage == 1:
                 self.Elevator.vert1()
                 self.Elevator.noir2()
@@ -355,6 +327,8 @@ class Lift():
 
 
         elif self.curMouvement == '+':
+            if portes_bloquees==False:
+                portes_ouvertes=0
             if self.CurEtage == 1:
                 self.Elevator.orange1()
                 self.Elevator.bleu2()
@@ -382,6 +356,8 @@ class Lift():
 
 
         elif self.curMouvement == '-':
+            if portes_bloquees==False:
+                portes_ouvertes=0
             if self.CurEtage == 2:
                 self.Elevator.bleu1()
                 self.Elevator.orange2()
