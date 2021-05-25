@@ -34,8 +34,30 @@ class MyTimer:
     def stop(self):
         self._timer.cancel()
 
+class montee_impossible():
+    def __init__(self):
+        self.activation = "disable"
+
+    def activate(self):
+        self.activation = "enable"
+
+class descente_impossible():
+    def __init__(self):
+        self.activation = "disable"
+
+    def activate(self):
+        self.activation = "enable"
+
+montee_impossible = montee_impossible()
+descente_impossible = descente_impossible()
+descente_impossible.activate()
+
 
 class Lift:
+
+    global montee_impossible
+    global descente_impossible
+
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
@@ -69,39 +91,124 @@ class Lift:
         self.CurTempo = 0
 
     def Aller5(self):
-        if self.CurPos < 5:
-            self.target[self.CurPos] = 5
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 5:
-                self.CurPos = 0
+        if descente_impossible.activation == "enable":
+            if self.CurEtage > self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 5
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 5
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        else:
+            if self.CurPos < 5:
+                self.target[self.CurPos] = 5
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 5:
+                    self.CurPos = 0
 
     def Aller4(self):
-        if self.CurPos < 5:
-            self.target[self.CurPos] = 4
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 5:
-                self.CurPos = 0
+        if montee_impossible.activation == "enable":
+            if self.CurEtage < self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 4
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 4
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        if descente_impossible.activation == "enable":
+            if self.CurEtage > self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 4
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 4
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        else:
+            if self.CurPos < 5:
+                self.target[self.CurPos] = 4
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 5:
+                    self.CurPos = 0
 
     def Aller3(self):
-        if self.CurPos < 5:
-            self.target[self.CurPos] = 3
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 5:
-                self.CurPos = 0
+        if montee_impossible.activation == "enable":
+            if self.CurEtage < self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 3
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 3
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        if descente_impossible.activation == "enable":
+            if self.CurEtage > self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 3
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 3
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        else:
+            if self.CurPos < 5:
+                self.target[self.CurPos] = 3
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 5:
+                    self.CurPos = 0
 
     def Aller2(self):
-        if self.CurPos < 5:
-            self.target[self.CurPos] = 2
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 5:
-                self.CurPos = 0
+        if montee_impossible.activation == "enable":
+            if self.CurEtage < self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 2
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 2
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        if descente_impossible.activation == "enable":
+            if self.CurEtage > self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 2
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 2
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        else:
+            if self.CurPos < 5:
+                self.target[self.CurPos] = 2
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 5:
+                    self.CurPos = 0
 
     def Aller1(self):
-        if self.CurPos < 5:
-            self.target[self.CurPos] = 1
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 5:
-                self.CurPos = 0
+        if montee_impossible.activation == "enable":
+            if self.CurEtage < self.target[self.CurPos - 1]:
+                if self.CurPos < 5:
+                    self.target[self.CurPos - 1] = 1
+            else:
+                if self.CurPos < 5:
+                    self.target[self.CurPos] = 1
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 5:
+                        self.CurPos = 0
+        else:
+            if self.CurPos < 5:
+                self.target[self.CurPos] = 1
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 5:
+                    self.CurPos = 0
 
     def CreerEtage(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -134,24 +241,31 @@ class Lift:
             if self.curMouvement == 'p':
                 self.curMouvement = '0'
 
-            if self.curMouvement == '+':
-                self.CurEtage = self.CurEtage + 1
-                if self.CurEtage == self.target[self.CurServed]:
-                    self.curMouvement = 'p'
-                    self.target[self.CurServed] = 0
-                    self.CurServed = self.CurServed + 1
-                    if self.CurServed == 5:
-                        self.CurServed = 0
-                        self.target[self.CurPos] = randint(0, 5)
-            if self.curMouvement == '-':
-                self.CurEtage = self.CurEtage - 1
-                if self.CurEtage == self.target[self.CurServed]:
-                    self.curMouvement = 'p'
-                    self.target[self.CurServed] = 0
-                    self.CurServed = self.CurServed + 1
-                    if self.CurServed == 5:
-                        self.CurServed = 0
-                        self.target[self.CurServed] = randint(0, 5)
+            if montee_impossible.activation == "enable":
+                self.curMouvement = '0'
+            else:
+                if self.curMouvement == '+':
+                    self.CurEtage = self.CurEtage + 1
+                    if self.CurEtage == self.target[self.CurServed]:
+                        self.curMouvement = 'p'
+                        self.target[self.CurServed] = 0
+                        self.CurServed = self.CurServed + 1
+                        if self.CurServed == 5:
+                            self.CurServed = 0
+                            self.target[self.CurPos] = randint(0, 5)
+
+            if descente_impossible.activation == "enable":
+                self.curMouvement = '0'
+            else:
+                if self.curMouvement == '-':
+                    self.CurEtage = self.CurEtage - 1
+                    if self.CurEtage == self.target[self.CurServed]:
+                        self.curMouvement = 'p'
+                        self.target[self.CurServed] = 0
+                        self.CurServed = self.CurServed + 1
+                        if self.CurServed == 5:
+                            self.CurServed = 0
+                            self.target[self.CurServed] = randint(0, 5)
 
             self.UpdateColor()
             self.CurTempo = 0
@@ -238,55 +352,111 @@ class Lift:
 
         if self.curMouvement == '+':
             if self.CurEtage == 1:
-                self.Elevator.Orange1()
-                self.Elevator.Bleu2()
-                self.Elevator.Noir3()
-                self.Elevator.Noir4()
-                self.Elevator.Noir5()
+                if montee_impossible.activation == "enable":
+                    self.Elevator.Rouge1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
+                else:
+                    self.Elevator.Orange1()
+                    self.Elevator.Bleu2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
             if self.CurEtage == 2:
-                self.Elevator.Noir1()
-                self.Elevator.Orange2()
-                self.Elevator.Bleu3()
-                self.Elevator.Noir4()
-                self.Elevator.Noir5()
+                if montee_impossible.activation == "enable":
+                    self.Elevator.Noir1()
+                    self.Elevator.Rouge2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
+                else:
+                    self.Elevator.Noir1()
+                    self.Elevator.Orange2()
+                    self.Elevator.Bleu3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
             if self.CurEtage == 3:
-                self.Elevator.Noir1()
-                self.Elevator.Noir2()
-                self.Elevator.Orange3()
-                self.Elevator.Bleu4()
-                self.Elevator.Noir5()
+                if montee_impossible.activation == "enable":
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Rouge3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
+                else:
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Orange3()
+                    self.Elevator.Bleu4()
+                    self.Elevator.Noir5()
             if self.CurEtage == 4:
-                self.Elevator.Noir1()
-                self.Elevator.Noir2()
-                self.Elevator.Noir3()
-                self.Elevator.Orange4()
-                self.Elevator.Bleu5()
+                if montee_impossible.activation == "enable":
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Rouge4()
+                    self.Elevator.Noir5()
+                else:
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Orange4()
+                    self.Elevator.Bleu5()
 
         if self.curMouvement == '-':
             if self.CurEtage == 2:
-                self.Elevator.Bleu1()
-                self.Elevator.Orange2()
-                self.Elevator.Noir3()
-                self.Elevator.Noir4()
-                self.Elevator.Noir5()
+                if descente_impossible.activation == "enable":
+                    self.Elevator.Noir1()
+                    self.Elevator.Rouge2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
+                else:
+                    self.Elevator.Bleu1()
+                    self.Elevator.Orange2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
             if self.CurEtage == 3:
-                self.Elevator.Noir1()
-                self.Elevator.Bleu2()
-                self.Elevator.Orange3()
-                self.Elevator.Noir4()
-                self.Elevator.Noir5()
+                if descente_impossible.activation == "enable":
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Rouge3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
+                else:
+                    self.Elevator.Noir1()
+                    self.Elevator.Bleu2()
+                    self.Elevator.Orange3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Noir5()
             if self.CurEtage == 4:
-                self.Elevator.Noir1()
-                self.Elevator.Noir2()
-                self.Elevator.Bleu3()
-                self.Elevator.Orange4()
-                self.Elevator.Noir5()
+                if descente_impossible.activation == "enable":
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Rouge4()
+                    self.Elevator.Noir5()
+                else:
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Bleu3()
+                    self.Elevator.Orange4()
+                    self.Elevator.Noir5()
             if self.CurEtage == 5:
-                self.Elevator.Noir1()
-                self.Elevator.Noir2()
-                self.Elevator.Noir3()
-                self.Elevator.Bleu4()
-                self.Elevator.Orange5()
+                if descente_impossible.activation == "enable":
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Noir4()
+                    self.Elevator.Rouge5()
+                else:
+                    self.Elevator.Noir1()
+                    self.Elevator.Noir2()
+                    self.Elevator.Noir3()
+                    self.Elevator.Bleu4()
+                    self.Elevator.Orange5()
 
     def sortir(self):
         global globstop
@@ -475,9 +645,7 @@ class Elevator:
         self.button1.pack()
 
 
-class defaillance_une_direction_seulement(Lift):
-    def __init__(self, montee_impossible=True, Lift):
-        self.direction_hs = montee_impossible
+
 
 
 
