@@ -60,7 +60,7 @@ class Lift():
         self.CreerLouis()
 
         self.newWindow2 = tk.Toplevel(self.master)
-        self.Eloise = Defaillance(self.newWindow2)
+        self.Eloise = DefaillanceElo(self.newWindow2)
 
         self.buttonA = tk.Button(self.frame, text='Alarm')
         self.buttonA.pack()
@@ -638,7 +638,7 @@ class DefaillanceLouis:
         global bouge_portes_ouvertes
         bouge_portes_ouvertes = True
 
-class Defaillance:
+class DefaillanceElo:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
