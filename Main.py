@@ -60,33 +60,22 @@ class Lift():
         self.CreerLouis()
 
         self.newWindow2 = tk.Toplevel(self.master)
-        self.Eloise = Eloïse.Defaillance(self.newWindow2)
+        self.Eloise = Defaillance(self.newWindow2)
 
         self.buttonA = tk.Button(self.frame, text='Alarm')
         self.buttonA.pack()
 
-        if mauvaisetage:
-            self.button5 = tk.Button(self.frame, text='5', command=self.Aller1)
-            self.button5.pack()
-            self.button4 = tk.Button(self.frame, text='4', command=self.Aller5)
-            self.button4.pack()
-            self.button3 = tk.Button(self.frame, text='3', command=self.Aller4)
-            self.button3.pack()
-            self.button2 = tk.Button(self.frame, text='2', command=self.Aller3)
-            self.button2.pack()
-            self.button1 = tk.Button(self.frame, text='1', command=self.Aller2)
-            self.button1.pack()
-        else:
-            self.button5 = tk.Button(self.frame, text='5', command=self.Aller5)
-            self.button5.pack()
-            self.button4 = tk.Button(self.frame, text='4', command=self.Aller4)
-            self.button4.pack()
-            self.button3 = tk.Button(self.frame, text='3', command=self.Aller3)
-            self.button3.pack()
-            self.button2 = tk.Button(self.frame, text='2', command=self.Aller2)
-            self.button2.pack()
-            self.button1 = tk.Button(self.frame, text='1', command=self.Aller1)
-            self.button1.pack()
+
+        self.button5 = tk.Button(self.frame, text='5', command=self.Aller5)
+        self.button5.pack()
+        self.button4 = tk.Button(self.frame, text='4', command=self.Aller4)
+        self.button4.pack()
+        self.button3 = tk.Button(self.frame, text='3', command=self.Aller3)
+        self.button3.pack()
+        self.button2 = tk.Button(self.frame, text='2', command=self.Aller2)
+        self.button2.pack()
+        self.button1 = tk.Button(self.frame, text='1', command=self.Aller1)
+        self.button1.pack()
 
         self.frame.pack()
 
@@ -100,58 +89,108 @@ class Lift():
 
     def Aller5(self):
         global portes_ouvertes, portes_bloquees
-        if self.CurPos < 10:
-            if not portes_bloquees:
-                portes_ouvertes = 0
-                print("portes fermées")
-            self.target[self.CurPos] = 5
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 10:
-                self.CurPos = 0
+        if mauvaisetage:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 4
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
+        else:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 5
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
 
     def Aller4(self):
         global portes_ouvertes, portes_bloquees
-        if self.CurPos < 10:
-            if not portes_bloquees:
-                portes_ouvertes = 0
-                print("portes fermées")
-            self.target[self.CurPos] = 4
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 10:
-                self.CurPos = 0
+        if mauvaisetage:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 3
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
+        else:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 4
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
 
     def Aller3(self):
         global portes_ouvertes, portes_bloquees
-        if self.CurPos < 10:
-            if not portes_bloquees:
-                portes_ouvertes = 0
-                print("portes fermées")
-            self.target[self.CurPos] = 3
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 10:
-                self.CurPos = 0
+        if mauvaisetage:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 2
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
+        else:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 3
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
 
     def Aller2(self):
         global portes_ouvertes, portes_bloquees
-        if self.CurPos < 10:
-            if not portes_bloquees:
-                portes_ouvertes = 0
-                print("portes fermées")
-            self.target[self.CurPos] = 2
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 10:
-                self.CurPos = 0
+        if mauvaisetage:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 1
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
+        else:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 2
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
 
     def Aller1(self):
         global portes_ouvertes, portes_bloquees
-        if self.CurPos < 10:
-            if not portes_bloquees:
-                portes_ouvertes = 0
-                print("portes fermées")
-            self.target[self.CurPos] = 1
-            self.CurPos = self.CurPos + 1
-            if self.CurPos == 10:
-                self.CurPos = 0
+        if mauvaisetage:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 5
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
+        else:
+            if self.CurPos < 10:
+                if not portes_bloquees:
+                    portes_ouvertes = 0
+                    print("portes fermées")
+                self.target[self.CurPos] = 1
+                self.CurPos = self.CurPos + 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
 
     def CreerEtage(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -599,6 +638,21 @@ class DefaillanceLouis:
         global bouge_portes_ouvertes
         bouge_portes_ouvertes = True
 
+class Defaillance:
+    def __init__(self, master):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+
+        self.master.title('Defaillances Eloïse')
+
+        self.button2 = tk.Button(self.frame, text='2e defaillance: mauvais étage', command=self.def2)
+        self.button2.pack()
+
+        self.frame.pack()
+
+    def def2(self):
+        global mauvaisetage
+        mauvaisetage = True
 
 def main():
     root = tk.Tk()
