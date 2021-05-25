@@ -15,6 +15,8 @@ portes_bloquees = False
 PORTES_UN_PEU_OUVERTES = 0.5  # à quelle proportion les portes s'ouvrent lorsqu'on clique sur le bouton associé
 AUTORISATION_PORTES_OUVERTES = 0.0025  # on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
 bouge_portes_ouvertes = False
+respect_prio = True
+comportement_correct_au_repos = True
 
 
 class MyTimer:
@@ -94,10 +96,13 @@ class Lift():
                 if not portes_bloquees:
                     portes_ouvertes = 0
                     print("portes fermées")
-                self.target[self.CurPos] = 4
-                self.CurPos = self.CurPos + 1
-                if self.CurPos == 10:
-                    self.CurPos = 0
+                if respect_prio:
+                    self.target[self.CurPos] = 4
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 10:
+                        self.CurPos = 0
+                else:
+                    self.target.append(4)
         else:
             if self.CurPos < 10:
                 if not portes_bloquees:
@@ -194,10 +199,7 @@ class Lift():
 
     def CreerEtage(self):
         self.newWindow = tk.Toplevel(self.master)
-        if mauvaisetage == True:
-            self.Etages = Eloïse.Etages(self.newWindow, self)
-        else:
-            self.Etages = Etages(self.newWindow, self)
+        self.Etages = Etages(self.newWindow, self)
 
     def CreerElevator(self):
 
@@ -210,6 +212,7 @@ class Lift():
 
     def move(self):
         global portes_ouvertes, bouge_portes_ouvertes
+
 
         if portes_ouvertes >= AUTORISATION_PORTES_OUVERTES and bouge_portes_ouvertes == False:
             return
@@ -645,14 +648,26 @@ class DefaillanceElo:
 
         self.master.title('Defaillances Eloïse')
 
-        self.button2 = tk.Button(self.frame, text='2e defaillance: mauvais étage', command=self.def2)
+        self.button2 = tk.Button(self.frame, text='Mauvais étage', command=self.def2)
         self.button2.pack()
+        self.button3 = tk.Button(self.frame, text='Priorités non respectées', command=self.mauvaisePrio)
+        self.button3.pack()
+        self.button4 = tk.Button(self.frame, text='Mauvais comportement au repos', command=self.mauvaisComportementRepos)
+        self.nutton4.pack()
 
         self.frame.pack()
 
     def def2(self):
         global mauvaisetage
         mauvaisetage = True
+
+    def mauvaisePrio(self):
+        global respect_prio
+        respect_prio = False
+
+    def mauvaisComportementRepos(self):
+        global comportement_correct_au_repos
+        comportement_correct_au_repos = False
 
 def main():
     root = tk.Tk()
