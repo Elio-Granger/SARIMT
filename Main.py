@@ -204,11 +204,11 @@ class Lift():
             self.CurTempo = self.CurTempo + 1
         if self.CurTempo == 50 or self.CurTempo == 0:  # permet de donner une notion de temps entre les etages
 
-            print("curMouvement " + self.curMouvement)
-            print("curEtage ", self.CurEtage)
+            #print("curMouvement " + self.curMouvement)
+            #print("curEtage ", self.CurEtage)
             # print("CurTempo"+self.CurTempo)
-            print("CurPos: ", self.CurPos, "  /  CurServed: ", self.CurServed)
-            print("target ", self.target)
+            #print("CurPos: ", self.CurPos, "  /  CurServed: ", self.CurServed)
+            #print("target ", self.target)
 
             if self.curMouvement == 'p':
                 self.curMouvement = '0'
