@@ -211,14 +211,16 @@ class Lift():
     def move(self):
         global portes_ouvertes, bouge_portes_ouvertes
 
-        if portes_ouvertes >= AUTORISATION_PORTES_OUVERTES and bouge_portes_ouvertes == False:
-            return
-        # comment out for exam
-        print(self.curMouvement)
-        print(self.CurEtage)
-        print(self.CurTempo)
-        print(self.CurPos, self.CurServed)
         print(self.target)
+        print(self.curMouvement)
+
+
+        # comment out for exam
+        print("curMouvement "+self.curMouvement)
+        print("curEtage ",self.CurEtage)
+        #print("CurTempo"+self.CurTempo)
+        print("CurPos: ",self.CurPos,"  /  CurServed: ", self.CurServed)
+        print("target ",self.target)
 
         if self.CurEtage > 5:
             print("self.CurEtage > 5")
@@ -229,56 +231,61 @@ class Lift():
             self.CurEtage = 1
             self.curMouvement = '0'
 
-        if self.curMouvement == '+' or self.curMouvement == '-' or self.curMouvement == 'pause':
+        if self.curMouvement == '+' or self.curMouvement == '-' or self.curMouvement == 'p':
+
             self.CurTempo = self.CurTempo + 1
         if self.CurTempo == 50 or self.CurTempo == 0:  # permet de donner une notion de temps entre les etages
 
-            if self.curMouvement == 'pause':
+            if self.curMouvement == 'p':
                 self.curMouvement = '0'
 
-            if self.curMouvement == '+':
-                self.CurEtage = self.CurEtage + 1
-                if self.CurEtage == self.target[self.CurServed]:
-                    self.curMouvement = 'pause'
-                    self.target[self.CurServed] = 0
-                    self.CurServed = self.CurServed + 1
-                    if not portes_bloquees:
-                        portes_ouvertes = 1
-                        print("portes ouvertes")
-                    if self.CurServed == 5:
-                        self.CurServed = 0
-                        self.target[self.CurPos] = randint(0, 5)
-            if self.curMouvement == '-':
-                self.CurEtage = self.CurEtage - 1
-                if self.CurEtage == self.target[self.CurServed]:
-                    self.curMouvement = 'pause'
-                    self.target[self.CurServed] = 0
-                    self.CurServed = self.CurServed + 1
-                    if not portes_bloquees:
-                        portes_ouvertes = 1
-                        print("portes ouvertes")
-                    if self.CurServed == 5:
-                        self.CurServed = 0
-                        self.target[self.CurServed] = randint(0, 5)
+            if self.curMouvement == '0':
+                if self.target[self.CurServed] > 0:
+                    if self.CurEtage < self.target[self.CurServed]:
+                        self.curMouvement = '+'
+                        self.UpdateColor()
+                    if self.CurEtage > self.target[self.CurServed]:
+                        self.curMouvement = '-'
+                        self.UpdateColor()
+                    if self.target[self.CurServed] == self.CurEtage:
+                        if self.CurServed == 10:
+                            self.CurServed = 0
+                        else:
+                            self.CurServed = self.CurServed + 1
+                            print(self.CurServed)
+
+
+
+            if portes_ouvertes < AUTORISATION_PORTES_OUVERTES or bouge_portes_ouvertes == True:
+                if self.curMouvement == '+':
+                    self.CurEtage = self.CurEtage + 1
+                    if self.CurEtage == self.target[self.CurServed]:
+                        self.curMouvement = 'p'
+                        self.target[self.CurServed] = 0
+                        self.CurServed = self.CurServed + 1
+                        if not portes_bloquees:
+                            portes_ouvertes = 1
+                            print("portes ouvertes")
+                        if self.CurServed == 10:
+                            self.CurServed = 0
+                            # self.target[self.CurPos] = randint(0, 5)   #pas compris cette ligne
+                if self.curMouvement == '-':
+                    print("test")
+                    self.CurEtage = self.CurEtage - 1
+                    if self.CurEtage == self.target[self.CurServed]:
+                        self.curMouvement = 'p'
+                        self.target[self.CurServed] = 0
+                        self.CurServed = self.CurServed + 1
+                        if not portes_bloquees:
+                            portes_ouvertes = 1
+                            print("portes ouvertes")
+                        if self.CurServed == 10:
+                            self.CurServed = 0
+                            # self.target[self.CurServed] = randint(0, 5)    #pas compris cette ligne
 
             self.UpdateColor()
             self.CurTempo = 0
 
-        if self.curMouvement == '0':
-            if self.target[self.CurServed] > 0:
-                # print(self.CurServed)
-                if self.CurEtage < self.target[self.CurServed]:
-                    self.curMouvement = '+'
-                    self.UpdateColor()
-                if self.CurEtage > self.target[self.CurServed]:
-                    self.curMouvement = '-'
-                    self.UpdateColor()
-                if self.target[self.CurServed] == self.CurEtage:
-                    if self.CurServed == 9:
-                        self.CurServed = 0
-                    else:
-                        self.CurServed = self.CurServed + 1
-                        print(self.CurServed)
 
     def UpdateColor(self):
         #        print "UpdateColor", self.curMouvement, self.CurEtage
@@ -314,7 +321,7 @@ class Lift():
                 self.Elevator.noir4()
                 self.Elevator.rouge5()
 
-        elif self.curMouvement == 'pause':
+        elif self.curMouvement == 'p':
             if self.CurEtage == 1:
                 self.Elevator.vert1()
                 self.Elevator.noir2()
