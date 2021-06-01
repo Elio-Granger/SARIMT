@@ -15,7 +15,7 @@ portes_bloquees = False
 PORTES_UN_PEU_OUVERTES = 0.5  # à quelle proportion les portes s'ouvrent lorsqu'on clique sur le bouton associé
 AUTORISATION_PORTES_OUVERTES = 0.0025  # on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
 bouge_portes_ouvertes = False
-
+mauvaisePorte = False
 
 class MyTimer:
     global globstop
@@ -318,7 +318,14 @@ class Lift():
                 self.Elevator.noir3()
                 self.Elevator.noir4()
                 self.Elevator.rouge5()
-            self.Elevator.Door_To_Red(self.CurEtage, portes[self.CurEtage - 1])
+
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
 
         elif self.curMouvement == 'p':
             if portes_bloquees==False:
@@ -353,7 +360,14 @@ class Lift():
                 self.Elevator.noir3()
                 self.Elevator.noir4()
                 self.Elevator.vert5()
-            self.Elevator.Door_To_Green(self.CurEtage, portes[self.CurEtage - 1])
+
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Green(self.CurEtage, statut)
 
 
         elif self.curMouvement == '+':
@@ -768,8 +782,7 @@ class DefaillanceLouis:
         self.button4.pack()
         self.button5 = tk.Button(self.frame, text='debloquer les portes manuellement', command=self.debloquerPortes)
         self.button5.pack()
-        self.button6 = tk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',
-                                 command=self.bougePortesOuvertes)
+        self.button6 = tk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',command=self.bougePortesOuvertes)
         self.button6.pack()
 
         self.frame.pack()
@@ -897,14 +910,35 @@ class Double_porte_Elio :
         self.button1R.pack(side=tk.RIGHT)
         self.display_1.pack(side=tk.RIGHT)
         self.frame1.pack(expand=True)
+
+        self.button_mauvaisePorte = ttk.Button(self.frame, text='l\'ascenceur n\'ouvre pas la bonne porte',command=self.mauvaisePorte)
+        self.button_mauvaisePorte.pack()
+
+        self.button_bonnePorte = ttk.Button(self.frame, text='l\'ascenceur ouvre la bonne porte',command=self.bonnePorte)
+        self.button_bonnePorte.pack()
+
         self.porte_L1()
         self.porte_L2()
         self.porte_L3()
         self.porte_L4()
         self.porte_L5()
+        self.bonnePorte()
+
+
 
 
         self.frame.pack()
+
+    def mauvaisePorte(self):
+        global mauvaisePorte
+        mauvaisePorte = True
+        self.button_color(self.button_mauvaisePorte,self.button_bonnePorte)
+
+
+    def bonnePorte(self):
+        global mauvaisePorte
+        mauvaisePorte = False
+        self.button_color(self.button_bonnePorte,self.button_mauvaisePorte)
 
     def button_color(self,buttonv,buttonuv):
         buttonv.configure(style="chosen.TButton")
