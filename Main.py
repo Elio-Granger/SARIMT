@@ -182,11 +182,9 @@ class Lift():
         i=self.CurServed
         while(i!=self.CurPos):
             if self.target[(i + 2) % 10] in range(min(self.target[i], self.target[(i + 1) % 10]),max(self.target[i], self.target[(i + 1) % 10])):
-                print("test")
-                print(self.target)
                 self.target[(i + 2) % 10], self.target[(i + 1) % 10] = self.target[(i + 1) % 10], self.target[(i + 2) % 10]
             i = (i + 1) % 10
-        print(self.target)
+
 
 
     def CreerEtage(self):
