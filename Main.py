@@ -376,6 +376,14 @@ class Lift():
                 self.Elevator.orange4()
                 self.Elevator.bleu5()
 
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
+
 
         elif self.curMouvement == '-':
             if portes_bloquees==False:
@@ -404,6 +412,14 @@ class Lift():
                 self.Elevator.noir3()
                 self.Elevator.bleu4()
                 self.Elevator.orange5()
+
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
 
     def sortir(self):
         global globstop
@@ -823,6 +839,7 @@ class Double_porte_Elio :
         self.display.pack()
 
         plus = ttk.Style()
+
         plus.configure("TButton", padding=(0, 5, 0, 5))
         plus.configure("chosen.TButton",foreground='green')
         plus.configure("unchosen.TButton", foreground='red')
@@ -901,9 +918,6 @@ class Double_porte_Elio :
         self.porte_L4()
         self.porte_L5()
         self.bonnePorte()
-
-
-
 
         self.frame.pack()
 
