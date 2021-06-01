@@ -15,7 +15,7 @@ portes_bloquees = False
 PORTES_UN_PEU_OUVERTES = 0.5  # à quelle proportion les portes s'ouvrent lorsqu'on clique sur le bouton associé
 AUTORISATION_PORTES_OUVERTES = 0.0025  # on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
 bouge_portes_ouvertes = False
-
+mauvaisePorte = False
 
 class MyTimer:
     global globstop
@@ -93,12 +93,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 4
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 5
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -108,12 +110,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 3
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 4
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -123,12 +127,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 2
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 3
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -138,12 +144,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 1
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 2
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -153,15 +161,31 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 5
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 1
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
+
+
+    def ordrePriorite(self):
+
+        if self.target[(self.CurServed + 1) % 10] in range(min(self.CurEtage, self.target[self.CurServed]), max(self.CurEtage, self.target[self.CurServed])):
+            self.target[(self.CurServed + 1) % 10], self.target[self.CurServed] = self.target[self.CurServed], self.target[(self.CurServed + 1) % 10]
+
+        i=self.CurServed
+        while(i!=self.CurPos):
+            if self.target[(i + 2) % 10] in range(min(self.target[i], self.target[(i + 1) % 10]),max(self.target[i], self.target[(i + 1) % 10])):
+                self.target[(i + 2) % 10], self.target[(i + 1) % 10] = self.target[(i + 1) % 10], self.target[(i + 2) % 10]
+            i = (i + 1) % 10
+
+
 
     def CreerEtage(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -185,8 +209,6 @@ class Lift():
 
     def move(self):
         global portes_ouvertes, bouge_portes_ouvertes
-
-
 
         # comment out for exam
         #print("curMouvement "+self.curMouvement)
@@ -231,8 +253,6 @@ class Lift():
                             self.CurServed = 0
                         else:
                             self.CurServed = self.CurServed + 1
-
-
 
 
             if portes_ouvertes < AUTORISATION_PORTES_OUVERTES or bouge_portes_ouvertes == True:
@@ -296,7 +316,14 @@ class Lift():
                 self.Elevator.noir3()
                 self.Elevator.noir4()
                 self.Elevator.rouge5()
-            self.Elevator.Door_To_Red(self.CurEtage, portes[self.CurEtage - 1])
+
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
 
         elif self.curMouvement == 'p':
             if portes_bloquees==False:
@@ -331,7 +358,14 @@ class Lift():
                 self.Elevator.noir3()
                 self.Elevator.noir4()
                 self.Elevator.vert5()
-            self.Elevator.Door_To_Green(self.CurEtage, portes[self.CurEtage - 1])
+
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Green(self.CurEtage, statut)
 
 
         elif self.curMouvement == '+':
@@ -362,6 +396,14 @@ class Lift():
                 self.Elevator.orange4()
                 self.Elevator.bleu5()
 
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
+
 
         elif self.curMouvement == '-':
             if portes_bloquees==False:
@@ -390,6 +432,14 @@ class Lift():
                 self.Elevator.noir3()
                 self.Elevator.bleu4()
                 self.Elevator.orange5()
+
+            statut = portes[self.CurEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
 
     def sortir(self):
         global globstop
@@ -746,8 +796,7 @@ class DefaillanceLouis:
         self.button4.pack()
         self.button5 = tk.Button(self.frame, text='debloquer les portes manuellement', command=self.debloquerPortes)
         self.button5.pack()
-        self.button6 = tk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',
-                                 command=self.bougePortesOuvertes)
+        self.button6 = tk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',command=self.bougePortesOuvertes)
         self.button6.pack()
 
         self.frame.pack()
@@ -810,9 +859,13 @@ class Double_porte_Elio :
         self.display.pack()
 
         plus = ttk.Style()
+
+        plus.map("chosen_new.TButton", foreground=[('pressed', 'green'), ('active', 'silver'),('!disabled','green')],background=[('pressed', '!disabled', 'green')] )
+        plus.map("unchosen_new.TButton", foreground=[('pressed', 'firebrick'), ('active', 'silver'),('!disabled','firebrick')],background=[('pressed', '!disabled', 'green')])
+
         plus.configure("TButton", padding=(0, 5, 0, 5))
         plus.configure("chosen.TButton",foreground='green')
-        plus.configure("unchosen.TButton", foreground='red')
+        plus.configure("unchosen.TButton", foreground='firebrick')
         plus.configure("blank.TButton", foreground='black')
 
         # ----------------------(Buttons 5)---------------------- #
@@ -875,18 +928,36 @@ class Double_porte_Elio :
         self.button1R.pack(side=tk.RIGHT)
         self.display_1.pack(side=tk.RIGHT)
         self.frame1.pack(expand=True)
+
+        self.button_mauvaisePorte = ttk.Button(self.frame, text='l\'ascenceur n\'ouvre pas la bonne porte',command=self.mauvaisePorte)
+        self.button_mauvaisePorte.pack()
+
+        self.button_bonnePorte = ttk.Button(self.frame, text='l\'ascenceur ouvre la bonne porte',command=self.bonnePorte)
+        self.button_bonnePorte.pack()
+
         self.porte_L1()
         self.porte_L2()
         self.porte_L3()
         self.porte_L4()
         self.porte_L5()
-
+        self.bonnePorte()
 
         self.frame.pack()
 
+    def mauvaisePorte(self):
+        global mauvaisePorte
+        mauvaisePorte = True
+        self.button_color(self.button_mauvaisePorte,self.button_bonnePorte)
+
+
+    def bonnePorte(self):
+        global mauvaisePorte
+        mauvaisePorte = False
+        self.button_color(self.button_bonnePorte,self.button_mauvaisePorte)
+
     def button_color(self,buttonv,buttonuv):
-        buttonv.configure(style="chosen.TButton")
-        buttonuv.configure(style='unchosen.TButton')
+        buttonv.configure(style="chosen_new.TButton")
+        buttonuv.configure(style='unchosen_new.TButton')
 
     def porte_R1(self):
         self.portes[0]=1
