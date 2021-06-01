@@ -346,7 +346,7 @@ class Lift():
                     statut = 1
                 else:
                     statut = 0
-            self.Elevator.Door_To_Green(self.CurEtage, statut)
+            self.Elevator.Door_To_Green(self.CurEtage,statut)
 
 
         elif self.curMouvement == '+':
@@ -647,6 +647,7 @@ class Elevator:
 
 
     def Door_To_Green(self,etage,statut):
+
         if statut == 0 :
             if etage == 1:
                 self.button1_back.configure(style="chosen.TButton")
