@@ -16,6 +16,7 @@ PORTES_UN_PEU_OUVERTES = 0.5  # à quelle proportion les portes s'ouvrent lorsqu
 AUTORISATION_PORTES_OUVERTES = 0.0025  # on considère que les portes s'ouvrent sur 2m, on autorise une ouverture de 0.0025% de 2m qui font 5mm
 bouge_portes_ouvertes = False
 mauvaisePorte = False
+curMouvement='0'
 
 class MyTimer:
     global globstop
@@ -47,7 +48,7 @@ class MyTimer:
 
 
 class Lift():
-    global portes_ouvertes, portes_bloquees
+    global portes_ouvertes, portes_bloquees, curMouvement
 
     def __init__(self, master):
         self.master = master
@@ -81,7 +82,7 @@ class Lift():
         self.frame.pack()
 
         self.CurEtage = 1
-        self.curMouvement = '0'
+        curMouvement = '0'
         self.target = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.CurPos = 0
         self.CurServed = 0
@@ -89,7 +90,6 @@ class Lift():
         self.UpdateColor()
 
     def Aller5(self):
-        global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 4
@@ -106,7 +106,6 @@ class Lift():
                     self.CurPos = 0
 
     def Aller4(self):
-        global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 3
@@ -123,7 +122,6 @@ class Lift():
                     self.CurPos = 0
 
     def Aller3(self):
-        global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 2
@@ -140,7 +138,6 @@ class Lift():
                     self.CurPos = 0
 
     def Aller2(self):
-        global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 1
@@ -157,7 +154,6 @@ class Lift():
                     self.CurPos = 0
 
     def Aller1(self):
-        global portes_ouvertes, portes_bloquees
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 5
@@ -208,45 +204,46 @@ class Lift():
         self.DefaillanceLouis = DefaillanceLouis(self.newWindow)
 
     def move(self):
-        global portes_ouvertes, bouge_portes_ouvertes
+        global portes_ouvertes, bouge_portes_ouvertes, curMouvement
+
+        self.UpdateColor()
 
         # comment out for exam
-        #print("curMouvement "+self.curMouvement)
+        #print("curMouvement "+curMouvement)
         #print("curEtage ",self.CurEtage)
         #print("CurTempo"+self.CurTempo)
         #print("CurPos: ",self.CurPos,"  /  CurServed: ", self.CurServed)
         #print("target ",self.target)
 
         if self.CurEtage > 5:
-            print("self.CurEtage > 5")
             self.CurEtage = 5
-            self.curMouvement = '0'
+            curMouvement = '0'
         if self.CurEtage < 1:
-            print("self.CurEtage < 1")
             self.CurEtage = 1
-            self.curMouvement = '0'
+            curMouvement = '0'
 
-        if self.curMouvement == '+' or self.curMouvement == '-' or self.curMouvement == 'p':
+        if curMouvement == '+' or curMouvement == '-' or curMouvement == 'p':
 
             self.CurTempo = self.CurTempo + 1
+
         if self.CurTempo == 50 or self.CurTempo == 0:  # permet de donner une notion de temps entre les etages
 
-            #print("curMouvement " + self.curMouvement)
+            #print("curMouvement " + curMouvement)
             #print("curEtage ", self.CurEtage)
             # print("CurTempo"+self.CurTempo)
             #print("CurPos: ", self.CurPos, "  /  CurServed: ", self.CurServed)
             #print("target ", self.target)
 
-            if self.curMouvement == 'p':
-                self.curMouvement = '0'
+            if curMouvement == 'p':
+                curMouvement = '0'
 
-            if self.curMouvement == '0':
+            if curMouvement == '0':
                 if self.target[self.CurServed] > 0:
                     if self.CurEtage < self.target[self.CurServed]:
-                        self.curMouvement = '+'
+                        curMouvement = '+'
                         self.UpdateColor()
                     if self.CurEtage > self.target[self.CurServed]:
-                        self.curMouvement = '-'
+                        curMouvement = '-'
                         self.UpdateColor()
                     if self.target[self.CurServed] == self.CurEtage:
                         if self.CurServed == 10:
@@ -256,19 +253,19 @@ class Lift():
 
 
             if portes_ouvertes < AUTORISATION_PORTES_OUVERTES or bouge_portes_ouvertes == True:
-                if self.curMouvement == '+':
+                if curMouvement == '+':
                     self.CurEtage = self.CurEtage + 1
                     if self.CurEtage == self.target[self.CurServed]:
-                        self.curMouvement = 'p'
+                        curMouvement = 'p'
                         self.target[self.CurServed] = 0
                         self.CurServed = self.CurServed + 1
                         if self.CurServed == 10:
                             self.CurServed = 0
                             # self.target[self.CurPos] = randint(0, 5)   #pas compris cette ligne
-                if self.curMouvement == '-':
+                if curMouvement == '-':
                     self.CurEtage = self.CurEtage - 1
                     if self.CurEtage == self.target[self.CurServed]:
-                        self.curMouvement = 'p'
+                        curMouvement = 'p'
                         self.target[self.CurServed] = 0
                         self.CurServed = self.CurServed + 1
                         if self.CurServed == 10:
@@ -281,9 +278,9 @@ class Lift():
 
     def UpdateColor(self):
         global portes_ouvertes, portes_bloquees
-        #        print "UpdateColor", self.curMouvement, self.CurEtage
+        #        print "UpdateColor", curMouvement, self.CurEtage
         self.Elevator.check_Changes()
-        if self.curMouvement == '0':
+        if curMouvement == '0':
             if portes_bloquees==False:
                 portes_ouvertes=0
             if self.CurEtage == 1:
@@ -325,7 +322,7 @@ class Lift():
                     statut = 0
             self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
 
-        elif self.curMouvement == 'p':
+        elif curMouvement == 'p':
             if portes_bloquees==False:
                 portes_ouvertes=1
             if self.CurEtage == 1:
@@ -368,7 +365,7 @@ class Lift():
             self.Elevator.Door_To_Green(self.CurEtage, statut)
 
 
-        elif self.curMouvement == '+':
+        elif curMouvement == '+':
             if portes_bloquees==False:
                 portes_ouvertes=0
             if self.CurEtage == 1:
@@ -405,7 +402,7 @@ class Lift():
             self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
 
 
-        elif self.curMouvement == '-':
+        elif curMouvement == '-':
             if portes_bloquees==False:
                 portes_ouvertes=0
             if self.CurEtage == 2:
@@ -802,14 +799,18 @@ class DefaillanceLouis:
         self.frame.pack()
 
     def fPortes(self):
-        global portes_ouvertes
+        global portes_ouvertes, curMouvement
         portes_ouvertes = 0
-        print("portes fermées")
+        if curMouvement=='p':
+            curMouvement='0'
+
 
     def ouvPortes(self):
-        global portes_ouvertes
+        global portes_ouvertes, curMouvement
         portes_ouvertes = 1
-        print("portes ouvertes")
+        if curMouvement!='p':
+            curMouvement='p'
+
 
     def ouvUnPeuPortes(self):
         global portes_ouvertes, PORTES_UN_PEU_OUVERTES
@@ -835,14 +836,17 @@ class DefaillanceElo:
 
         self.master.title('Defaillances Eloïse')
 
-        self.button2 = tk.Button(self.frame, text='2e defaillance: mauvais étage', command=self.def2)
+        self.button2 = tk.Button(self.frame, text='activer / désactiver la défaillance mauvais étage', command=self.def2)
         self.button2.pack()
 
         self.frame.pack()
 
     def def2(self):
         global mauvaisetage
-        mauvaisetage = True
+        if mauvaisetage==False:
+            mauvaisetage = True
+        else:
+            mauvaisetage=False
 
 class Double_porte_Elio :
 
