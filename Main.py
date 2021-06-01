@@ -396,6 +396,7 @@ class Lift():
                 self.Elevator.orange4()
                 self.Elevator.bleu5()
 
+            print(self.CurEtage)
             statut = portes[self.CurEtage - 1]
             if mauvaisePorte == True:
                 if statut == 0:
@@ -851,6 +852,7 @@ class Double_porte_Elio :
         self.frame = tk.Frame(self.master)
         self.portes = [0,0,0,0,0] # 0 -> porte de gauche programmée, sinon 1 -> porte de droite. (état initial), chaque indice représente un étage.
         global portes
+        self.master.geometry('215x260')
         portes = self.portes
 
         self.master.title('Defaillances double portes Elio')
