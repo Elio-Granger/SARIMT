@@ -114,7 +114,7 @@ class Lift():
 
     def CreerPortes(self):
         self.newWindow = tk.Toplevel(self.master)
-        self.Etages = Double_porte(self.newWindow, self)
+        self.Etages = Double_porte_Elio(self.newWindow, self)
 
     def CreerElevator(self):
 
@@ -355,12 +355,12 @@ class Etages(Lift):
     def close_windows(self):
         self.master.destroy()
 
-class Double_porte(Lift) :
+class Double_porte_Elio(Lift) :
 
     def __init__(self, master,Lift):
         self.master = master
         self.frame = tk.Frame(self.master)
-        self.portes = [0,0,0,0,0]
+        self.portes = [0,0,0,0,0] # 0 -> porte de gauche programmée, sinon 1 -> porte de droite. (état initial), chaque indice représente un étage.
         global portes
         portes = self.portes
 
