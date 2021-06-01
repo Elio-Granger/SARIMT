@@ -860,9 +860,12 @@ class Double_porte_Elio :
 
         plus = ttk.Style()
 
+        plus.map("chosen_new.TButton", foreground=[('pressed', 'green'), ('active', 'silver'),('!disabled','green')],background=[('pressed', '!disabled', 'green')] )
+        plus.map("unchosen_new.TButton", foreground=[('pressed', 'firebrick'), ('active', 'silver'),('!disabled','firebrick')],background=[('pressed', '!disabled', 'green')])
+
         plus.configure("TButton", padding=(0, 5, 0, 5))
         plus.configure("chosen.TButton",foreground='green')
-        plus.configure("unchosen.TButton", foreground='red')
+        plus.configure("unchosen.TButton", foreground='firebrick')
         plus.configure("blank.TButton", foreground='black')
 
         # ----------------------(Buttons 5)---------------------- #
@@ -953,8 +956,8 @@ class Double_porte_Elio :
         self.button_color(self.button_bonnePorte,self.button_mauvaisePorte)
 
     def button_color(self,buttonv,buttonuv):
-        buttonv.configure(style="chosen.TButton")
-        buttonuv.configure(style='unchosen.TButton')
+        buttonv.configure(style="chosen_new.TButton")
+        buttonuv.configure(style='unchosen_new.TButton')
 
     def porte_R1(self):
         self.portes[0]=1
