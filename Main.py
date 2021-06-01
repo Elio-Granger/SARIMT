@@ -93,12 +93,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 4
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 5
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -108,12 +110,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 3
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 4
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -123,12 +127,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 2
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 3
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -138,12 +144,14 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 1
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 2
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
@@ -153,15 +161,31 @@ class Lift():
         if mauvaisetage:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 5
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 1
+                self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
+
+
+    def ordrePriorite(self):
+
+        if self.target[(self.CurServed + 1) % 10] in range(min(self.CurEtage, self.target[self.CurServed]), max(self.CurEtage, self.target[self.CurServed])):
+            self.target[(self.CurServed + 1) % 10], self.target[self.CurServed] = self.target[self.CurServed], self.target[(self.CurServed + 1) % 10]
+
+        i=self.CurServed
+        while(i!=self.CurPos):
+            if self.target[(i + 2) % 10] in range(min(self.target[i], self.target[(i + 1) % 10]),max(self.target[i], self.target[(i + 1) % 10])):
+                self.target[(i + 2) % 10], self.target[(i + 1) % 10] = self.target[(i + 1) % 10], self.target[(i + 2) % 10]
+            i = (i + 1) % 10
+
+
 
     def CreerEtage(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -185,8 +209,6 @@ class Lift():
 
     def move(self):
         global portes_ouvertes, bouge_portes_ouvertes
-
-
 
         # comment out for exam
         #print("curMouvement "+self.curMouvement)
@@ -231,8 +253,6 @@ class Lift():
                             self.CurServed = 0
                         else:
                             self.CurServed = self.CurServed + 1
-
-
 
 
             if portes_ouvertes < AUTORISATION_PORTES_OUVERTES or bouge_portes_ouvertes == True:
