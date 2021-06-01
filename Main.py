@@ -222,9 +222,9 @@ class Lift():
             self.CurEtage = 1
             curMouvement = '0'
 
-        if curMouvement == '+' or curMouvement == '-' or curMouvement == 'p':
+      #  if curMouvement == '+' or curMouvement == '-' or curMouvement == 'p':
 
-            self.CurTempo = self.CurTempo + 1
+        self.CurTempo = self.CurTempo + 1
 
         if self.CurTempo == 50 or self.CurTempo == 0:  # permet de donner une notion de temps entre les etages
 
@@ -393,7 +393,7 @@ class Lift():
                 self.Elevator.orange4()
                 self.Elevator.bleu5()
 
-            print(self.CurEtage)
+           # print(self.CurEtage)
             statut = portes[self.CurEtage - 1]
             if mauvaisePorte == True:
                 if statut == 0:
