@@ -17,7 +17,6 @@ AUTORISATION_PORTES_OUVERTES = 0.0025  # on considère que les portes s'ouvrent 
 bouge_portes_ouvertes = False
 mauvaisePorte = False
 
-
 class MyTimer:
     global globstop
 
@@ -764,13 +763,6 @@ class DefaillanceLouis:
         self.button6 = tk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',
                                  command=self.bougePortesOuvertes)
         self.button6.pack()
-        self.button7 = tk.Button(self.frame, text='l\'ascenceur n\'ouvre pas la bonne porte',
-                                 command=self.mauvaisePorte)
-        self.button7.pack()
-
-        self.button8 = tk.Button(self.frame, text='l\'ascenceur ouvre la bonne porte',
-                                 command=self.bonnePorte)
-        self.button8.pack()
 
         self.frame.pack()
 
@@ -800,14 +792,6 @@ class DefaillanceLouis:
     def bougePortesOuvertes(self):
         global bouge_portes_ouvertes
         bouge_portes_ouvertes = True
-
-    def mauvaisePorte(self):
-        global mauvaisePorte
-        mauvaisePorte = True
-
-    def bonnePorte(self):
-        global mauvaisePorte
-        mauvaisePorte = False
 
 class DefaillanceElo:
     def __init__(self, master):
@@ -911,8 +895,23 @@ class Double_porte_Elio :
         self.porte_L4()
         self.porte_L5()
 
+        self.button7 = tk.Button(self.frame, text='l\'ascenceur n\'ouvre pas la bonne porte',
+                                 command=self.mauvaisePorte)
+        self.button7.pack()
+
+        self.button8 = tk.Button(self.frame, text='l\'ascenceur ouvre la bonne porte',
+                                 command=self.bonnePorte)
+        self.button8.pack()
+
 
         self.frame.pack()
+    def mauvaisePorte(self):
+        global mauvaisePorte
+        mauvaisePorte = True
+
+    def bonnePorte(self):
+        global mauvaisePorte
+        mauvaisePorte = False
 
     def button_color(self,buttonv,buttonuv):
         buttonv.configure(style="chosen.TButton")
