@@ -46,20 +46,50 @@ class MyTimer:
     def stop(self):
         self._timer.cancel()
 
+class descente_impossible():
+    def __init__(self):
+        self.activation = "disable"
+
+    def activate(self):
+        self.activation = "enable"
+
+    def desactivate(self):
+        self.activation = "disable"
+
+    def status(self):
+        return self.activation
+
+
+class defaillance(descente_impossible):
+    def __init__(self, master, descente_impossible):
+        self.master = master
+        self.frame = tk.Frame(self.master)
+        self.master.geometry('200x200')
+        self.master.title('Défaillance')
+        self.buttonDesactivation = tk.Button(self.frame, text='Désactiver descente',command=descente_impossible.activate)
+        self.buttonDesactivation.pack()
+        self.buttonActivation = tk.Button(self.frame, text='Activer descente',command=descente_impossible.desactivate)
+        self.buttonActivation.pack()
+        self.frame.pack()
+
+descente_impossible = descente_impossible()
+
 
 class Lift():
     global portes_ouvertes, portes_bloquees, curMouvement
+    global descente_impossible
 
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
-
+        self.master.geometry('200x200')
         self.master.title('ascenseur')
 
         self.CreerEtage()
         self.CreerElevator()
         self.CreerLouis()
         self.CreerPortes()
+        self.CreerDefaillance()
 
         self.newWindow2 = tk.Toplevel(self.master)
         self.Eloise = DefaillanceElo(self.newWindow2)
@@ -81,7 +111,7 @@ class Lift():
 
         self.frame.pack()
 
-        self.CurEtage = 1
+        self.CurEtage = 5
         curMouvement = '0'
         self.target = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.CurPos = 0
@@ -97,6 +127,19 @@ class Lift():
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
+        if descente_impossible.status() == "enable":
+            if self.CurEtage > self.target[self.CurPos]:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 5
+                if self.CurPos == 10:
+                    self.CurPos = 0
+            else:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 5
+                    self.ordrePriorite()
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 10:
+                        self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 5
@@ -113,6 +156,19 @@ class Lift():
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
+        if descente_impossible.status() == "enable":
+            if self.CurEtage > self.target[self.CurPos]:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 4
+                if self.CurPos == 10:
+                    self.CurPos = 0
+            else:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 4
+                    self.ordrePriorite()
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 10:
+                        self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 4
@@ -129,6 +185,19 @@ class Lift():
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
+        if descente_impossible.status() == "enable":
+            if self.CurEtage > self.target[self.CurPos]:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 3
+                if self.CurPos == 10:
+                    self.CurPos = 0
+            else:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 3
+                    self.ordrePriorite()
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 10:
+                        self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 3
@@ -145,6 +214,19 @@ class Lift():
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
+        if descente_impossible.status() == "enable":
+            if self.CurEtage > self.target[self.CurPos]:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 2
+                if self.CurPos == 10:
+                    self.CurPos = 0
+            else:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 2
+                    self.ordrePriorite()
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 10:
+                        self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 2
@@ -161,6 +243,19 @@ class Lift():
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
+        if descente_impossible.status() == "enable":
+            if self.CurEtage > self.target[self.CurPos]:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 1
+                if self.CurPos == 10:
+                    self.CurPos = 0
+            else:
+                if self.CurPos < 10:
+                    self.target[self.CurPos] = 1
+                    self.ordrePriorite()
+                    self.CurPos = self.CurPos + 1
+                    if self.CurPos == 10:
+                        self.CurPos = 0
         else:
             if self.CurPos < 10:
                 self.target[self.CurPos] = 1
@@ -202,6 +297,10 @@ class Lift():
     def CreerLouis(self):
         self.newWindow = tk.Toplevel(self.master)
         self.DefaillanceLouis = DefaillanceLouis(self.newWindow)
+
+    def CreerDefaillance(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.defaillance = defaillance(self.newWindow, descente_impossible)
 
     def move(self):
         global portes_ouvertes, bouge_portes_ouvertes, curMouvement
@@ -262,6 +361,9 @@ class Lift():
                         if self.CurServed == 10:
                             self.CurServed = 0
                             # self.target[self.CurPos] = randint(0, 5)   #pas compris cette ligne
+                # if descente_impossible.status() == "enable":
+                #     self.curMouvement = '0'
+                # else:
                 if curMouvement == '-':
                     self.CurEtage = self.CurEtage - 1
                     if self.CurEtage == self.target[self.CurServed]:
@@ -270,7 +372,7 @@ class Lift():
                         self.CurServed = self.CurServed + 1
                         if self.CurServed == 10:
                             self.CurServed = 0
-                            # self.target[self.CurServed] = randint(0, 5)    #pas compris cette ligne
+                                # self.target[self.CurServed] = randint(0, 5)    #pas compris cette ligne
 
             self.UpdateColor()
             self.CurTempo = 0
@@ -407,29 +509,57 @@ class Lift():
             if portes_bloquees==False:
                 portes_ouvertes=0
             if self.CurEtage == 2:
-                self.Elevator.bleu1()
-                self.Elevator.orange2()
-                self.Elevator.noir3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 3:
-                self.Elevator.noir1()
-                self.Elevator.bleu2()
-                self.Elevator.orange3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 4:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.bleu3()
-                self.Elevator.orange4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 5:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.noir3()
-                self.Elevator.bleu4()
-                self.Elevator.orange5()
+                if descente_impossible.status() == "enable":
+                    self.Elevator.noir1()
+                    self.Elevator.rouge2()
+                    self.Elevator.noir3()
+                    self.Elevator.noir4()
+                    self.Elevator.noir5()
+                else:
+                    self.Elevator.bleu1()
+                    self.Elevator.orange2()
+                    self.Elevator.noir3()
+                    self.Elevator.noir4()
+                    self.Elevator.noir5()
+            if self.CurEtage == 3:
+                if descente_impossible.status() == "enable":
+                    self.Elevator.noir1()
+                    self.Elevator.noir2()
+                    self.Elevator.rouge3()
+                    self.Elevator.noir4()
+                    self.Elevator.noir5()
+                else:
+                    self.Elevator.noir1()
+                    self.Elevator.bleu2()
+                    self.Elevator.orange3()
+                    self.Elevator.noir4()
+                    self.Elevator.noir5()
+            if self.CurEtage == 4:
+                if descente_impossible.status() == "enable":
+                    self.Elevator.noir1()
+                    self.Elevator.noir2()
+                    self.Elevator.noir3()
+                    self.Elevator.rouge4()
+                    self.Elevator.noir5()
+                else:
+                    self.Elevator.noir1()
+                    self.Elevator.noir2()
+                    self.Elevator.bleu3()
+                    self.Elevator.orange4()
+                    self.Elevator.noir5()
+            if self.CurEtage == 5:
+                if descente_impossible.status() == "enable":
+                    self.Elevator.noir1()
+                    self.Elevator.noir2()
+                    self.Elevator.noir3()
+                    self.Elevator.noir4()
+                    self.Elevator.rouge5()
+                else:
+                    self.Elevator.noir1()
+                    self.Elevator.noir2()
+                    self.Elevator.noir3()
+                    self.Elevator.bleu4()
+                    self.Elevator.orange5()
 
             statut = portes[self.CurEtage - 1]
             if mauvaisePorte == True:
@@ -449,7 +579,7 @@ class Etages(Lift):
     def __init__(self, master, Lift):
         self.master = master
         self.frame = tk.Frame(self.master)
-
+        self.master.geometry('200x200')
         self.master.title('Etages')
 
         self.button5u = tk.Button(self.frame, text='5 ^', command=Lift.Aller5)
@@ -489,7 +619,7 @@ class Elevator:
     def __init__(self, master):
         self.master = master
         self.frame = tk.Frame(self.master)
-
+        self.master.geometry('200x200')
         self.master.title('Position')
 
         style = ttk.Style()
