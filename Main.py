@@ -352,6 +352,20 @@ class Lift():
 
 
             if portes_ouvertes < AUTORISATION_PORTES_OUVERTES or bouge_portes_ouvertes == True:
+
+                if curMouvement == 'p':
+                    if self.target[self.CurServed] > 0:
+                        if self.CurEtage < self.target[self.CurServed]:
+                            curMouvement = '+'
+                            self.UpdateColor()
+                        if self.CurEtage > self.target[self.CurServed]:
+                            curMouvement = '-'
+                            self.UpdateColor()
+                        if self.target[self.CurServed] == self.CurEtage:
+                            self.CurServed = self.CurServed + 1
+                            if self.CurServed == 10:
+                                self.CurServed = 0
+
                 if curMouvement == '+':
                     self.CurEtage = self.CurEtage + 1
                     if self.CurEtage == self.target[self.CurServed]:
@@ -379,7 +393,7 @@ class Lift():
 
 
     def UpdateColor(self):
-        global portes_ouvertes, portes_bloquees,curEtage
+        global portes_ouvertes, portes_bloquees,curEtage,curMouvement
         curEtage=self.CurEtage
         #        print "UpdateColor", curMouvement, self.CurEtage
         self.Elevator.check_Changes()
@@ -458,6 +472,10 @@ class Lift():
                 self.Elevator.noir3()
                 self.Elevator.noir4()
                 self.Elevator.vert5()
+            if(portes_ouvertes >= AUTORISATION_PORTES_OUVERTES and bouge_portes_ouvertes == False and (self.CurTempo == 25 or self.CurTempo == 75)) :
+
+                curMouvement='0'
+
 
             statut = portes[self.CurEtage - 1]
             if mauvaisePorte == True:
@@ -569,6 +587,7 @@ class Lift():
                 else:
                     statut = 0
             self.Elevator.Door_To_Red(self.CurEtage, statut)
+
 
     def sortir(self):
         global globstop
