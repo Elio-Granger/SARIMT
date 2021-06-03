@@ -52,9 +52,11 @@ class descente_impossible():
 
     def activate(self):
         self.activation = "enable"
+        print('activée')
 
     def desactivate(self):
         self.activation = "disable"
+        print('desactivée')
 
     def status(self):
         return self.activation
@@ -89,7 +91,7 @@ class Lift():
         self.CreerElevator()
         self.CreerLouis()
         self.CreerPortes()
-        self.CreerDefaillance()
+        # self.CreerDefaillance()
 
         self.buttonA = tk.Button(self.frame, text='Alarm')
         self.buttonA.pack()
@@ -125,9 +127,8 @@ class Lift():
                 if self.CurPos == 10:
                     self.CurPos = 0
         if descente_impossible.status() == "enable":
-            if self.CurEtage > self.target[self.CurPos]:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 5
+            if self.CurEtage > 5:
+                self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
             else:
@@ -154,9 +155,9 @@ class Lift():
                 if self.CurPos == 10:
                     self.CurPos = 0
         if descente_impossible.status() == "enable":
-            if self.CurEtage > self.target[self.CurPos]:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 4
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage > 4:
+                self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
             else:
@@ -183,9 +184,9 @@ class Lift():
                 if self.CurPos == 10:
                     self.CurPos = 0
         if descente_impossible.status() == "enable":
-            if self.CurEtage > self.target[self.CurPos]:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 3
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage > 3:
+                self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
             else:
@@ -212,9 +213,9 @@ class Lift():
                 if self.CurPos == 10:
                     self.CurPos = 0
         if descente_impossible.status() == "enable":
-            if self.CurEtage > self.target[self.CurPos]:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 2
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage > 2:
+                self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
             else:
@@ -241,9 +242,9 @@ class Lift():
                 if self.CurPos == 10:
                     self.CurPos = 0
         if descente_impossible.status() == "enable":
-            if self.CurEtage > self.target[self.CurPos]:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 1
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage > 1:
+                self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
             else:
@@ -263,7 +264,9 @@ class Lift():
 
 
     def ordrePriorite(self):
-
+        # print((self.CurServed + 1) % 10)
+        # print(self.target)
+        # print(range(min(self.CurEtage, self.target[self.CurServed]), max(self.CurEtage, self.target[self.CurServed])))
         if self.target[(self.CurServed + 1) % 10] in range(min(self.CurEtage, self.target[self.CurServed]), max(self.CurEtage, self.target[self.CurServed])):
             self.target[(self.CurServed + 1) % 10], self.target[self.CurServed] = self.target[self.CurServed], self.target[(self.CurServed + 1) % 10]
 
@@ -293,11 +296,11 @@ class Lift():
 
     def CreerLouis(self):
         self.newWindow = tk.Toplevel(self.master)
-        self.DefaillanceLouis = DefaillanceLouis(self.newWindow,self.Elevator)
+        self.DefaillanceLouis = DefaillanceLouis(self.newWindow,self.Elevator,descente_impossible)
 
-    def CreerDefaillance(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.defaillance = defaillance(self.newWindow, descente_impossible)
+    # def CreerDefaillance(self):
+    #     self.newWindow = tk.Toplevel(self.master)
+    #     self.defaillance = defaillance(self.newWindow, descente_impossible)
 
     def move(self):
         global portes_ouvertes, bouge_portes_ouvertes, curMouvement
@@ -342,10 +345,10 @@ class Lift():
                         curMouvement = '-'
                         self.UpdateColor()
                     if self.target[self.CurServed] == self.CurEtage:
+                        self.CurServed = self.CurServed + 1
                         if self.CurServed == 10:
                             self.CurServed = 0
-                        else:
-                            self.CurServed = self.CurServed + 1
+
 
 
             if portes_ouvertes < AUTORISATION_PORTES_OUVERTES or bouge_portes_ouvertes == True:
@@ -420,7 +423,7 @@ class Lift():
                     statut = 1
                 else:
                     statut = 0
-            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
+            self.Elevator.Door_To_Red(self.CurEtage, statut)
 
         elif curMouvement == 'p':
             if portes_bloquees==False:
@@ -904,34 +907,62 @@ class Elevator:
                     self.button5_front.configure(style="blank.TButton")
 
 
-class DefaillanceLouis:
+class DefaillanceLouis():
 
-    def __init__(self, master,Elevator):
+    def __init__(self, master,Elevator,descente_impossible):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.frame.grid_rowconfigure(1, weight=1)
+        self.frame.grid_columnconfigure(2, weight=1)
+        self.master.geometry('600x300')
         self.Elevator = Elevator
+        self.descente_impossible=descente_impossible
 
-        self.master.title('Defaillances Louis')
+        self.master.title('Defaillances')
 
-        self.button1 = ttk.Button(self.frame, text='fermer les portes manuellement', command=self.fPortes)
-        self.button1.pack()
-        self.button2 = ttk.Button(self.frame, text='ouvrir les portes manuellement', command=self.ouvPortes)
-        self.button2.pack()
-        self.button3 = ttk.Button(self.frame, text='ouvrir un peu les portes manuellement', command=self.ouvUnPeuPortes)
-        self.button3.pack()
-        self.button4 = ttk.Button(self.frame, text='bloquer les portes', command=self.bloquerPortes)
+        self.frame_Louis = tk.Frame(self.frame)
+        self.display_Louis = tk.Label(self.frame_Louis, text='  Défaillances portes  ',background ='light grey', height  =2,font=("Arial",12,'bold'))
+        self.display_Louis.pack(fill='x')
+        self.button1 = ttk.Button(self.frame_Louis, text='fermer les portes manuellement', command=self.fPortes)
+        self.button1.pack(fill='x')
+        self.button2 = ttk.Button(self.frame_Louis, text='ouvrir les portes manuellement', command=self.ouvPortes)
+        self.button2.pack(fill='x')
+        self.button3 = ttk.Button(self.frame_Louis, text='ouvrir un peu les portes manuellement', command=self.ouvUnPeuPortes)
+        self.button3.pack(fill='x')
+        self.button4 = ttk.Button(self.frame_Louis, text='bloquer les portes', command=self.bloquerPortes)
         self.button4.configure(style="unchosen_new.TButton")
-        self.button4.pack()
-        self.button5 = ttk.Button(self.frame, text='debloquer les portes manuellement', command=self.debloquerPortes)
-        self.button5.pack()
-        self.button6 = ttk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',command=self.bougePortesOuvertes)
+        self.button4.pack(fill='x')
+        self.button5 = ttk.Button(self.frame_Louis, text='debloquer les portes manuellement', command=self.debloquerPortes)
+        self.button5.pack(fill='x')
+        self.button6 = ttk.Button(self.frame_Louis, text='l\'ascenceur bouge avec les portes ouvertes',command=self.bougePortesOuvertes)
         self.button6.configure(style="unchosen_new.TButton")
         self.button6.pack()
-        self.button7 = ttk.Button(self.frame, text='activer / désactiver la défaillance mauvais étage',command=self.def2)
-        self.button7.configure(style="unchosen_new.TButton")
-        self.button7.pack()
+        self.frame_Louis.configure(highlightbackground="white", highlightthickness=2)
+        self.frame_Louis.grid(row=0,column=1, sticky="ne")
 
-        self.frame.pack()
+
+        self.frame_Eloise_Jules = tk.Frame(self.frame)
+
+        self.frame_Eloise = tk.Frame(self.frame_Eloise_Jules)
+        self.frame_Eloise.configure(highlightbackground="white", highlightthickness=2)
+        self.display_Eloise = tk.Label(self.frame_Eloise, text='  Défaillances étages  ',background ='light grey', height  =2,font=("Arial",12,'bold'))
+        self.display_Eloise.pack(fill='x')
+        self.button7 = ttk.Button(self.frame_Eloise, text='activer / désactiver la défaillance mauvais étage',command=self.def2)
+        self.button7.configure(style="unchosen_new.TButton")
+        self.button7.pack(fill='x')
+        self.frame_Eloise.pack()
+
+        self.frame_Jules = tk.Frame(self.frame_Eloise_Jules)
+        self.frame_Jules.configure(highlightbackground="white", highlightthickness=2)
+        self.display_Jules = tk.Label(self.frame_Jules, text='  Défaillances mouvement  ', background='light grey',height=2, font=("Arial", 12, 'bold'))
+        self.display_Jules.pack(fill='x')
+        self.buttonDesactivation = tk.Button(self.frame_Jules, text='Désactiver descente',command=descente_impossible.activate)
+        self.buttonDesactivation.pack()
+        self.buttonActivation = tk.Button(self.frame_Jules, text='Activer descente', command=descente_impossible.desactivate)
+        self.buttonActivation.pack()
+        self.frame_Jules.pack(fill='x')
+
+        self.frame_Eloise_Jules.grid(row=0, column=0, sticky='nw')
 
         self.frame.pack()
 
@@ -1087,10 +1118,10 @@ class Double_porte_Elio :
         self.frame1.pack(expand=True)
 
         self.button_mauvaisePorte = ttk.Button(self.frame, text='l\'ascenceur n\'ouvre pas la bonne porte',command=self.mauvaisePorte)
-        self.button_mauvaisePorte.pack()
+        self.button_mauvaisePorte.pack(fill='x')
 
         self.button_bonnePorte = ttk.Button(self.frame, text='l\'ascenceur ouvre la bonne porte',command=self.bonnePorte)
-        self.button_bonnePorte.pack()
+        self.button_bonnePorte.pack(fill='x')
 
         self.porte_L1()
         self.porte_L2()
