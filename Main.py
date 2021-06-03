@@ -1003,28 +1003,6 @@ class DefaillanceLouis:
             self.button6.configure(style="unchosen_new.TButton")
 
 
-class DefaillanceElo:
-    def __init__(self, master):
-        self.master = master
-        self.frame = tk.Frame(self.master)
-
-        self.master.title('Defaillances Eloïse')
-
-        self.button2 = ttk.Button(self.frame, text='activer / désactiver la défaillance mauvais étage', command=self.def2)
-        self.button2.pack()
-
-        self.frame.pack()
-
-    def def2(self):
-        global mauvaisetage
-        if mauvaisetage==False:
-            mauvaisetage = True
-            self.button2.configure(style="chosen_new.TButton")
-        else:
-            mauvaisetage=False
-            self.button2.configure(style="unchosen_new.TButton")
-
-
 class Double_porte_Elio :
 
     def __init__(self, master):
