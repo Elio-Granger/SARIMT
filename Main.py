@@ -91,9 +91,6 @@ class Lift():
         self.CreerPortes()
         self.CreerDefaillance()
 
-        self.newWindow2 = tk.Toplevel(self.master)
-        self.Eloise = DefaillanceElo(self.newWindow2)
-
         self.buttonA = tk.Button(self.frame, text='Alarm')
         self.buttonA.pack()
 
