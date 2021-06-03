@@ -961,7 +961,7 @@ class Defaillance_Louis_Eloise_Jules():
         self.frame_Eloise.configure(highlightbackground="white", highlightthickness=2)
         self.display_Eloise = tk.Label(self.frame_Eloise, text='  Défaillances étages  ',background ='light grey', height  =2,font=("Arial",12,'bold'))
         self.display_Eloise.pack(fill='x')
-        self.button7 = ttk.Button(self.frame_Eloise, text='activer / désactiver la défaillance mauvais étage',command=self.def2)
+        self.button7 = ttk.Button(self.frame_Eloise, text='activer / désactiver la défaillance mauvais étage',command=self.def_etage)
         self.button7.configure(style="unchosen_new.TButton")
         self.button7.pack(fill='x')
         self.frame_Eloise.pack()
@@ -990,7 +990,7 @@ class Defaillance_Louis_Eloise_Jules():
         descente_impossible.desactivate()
         Double_porte_Elio.button_color(self,self.buttonActivation,self.buttonDesactivation)
 
-    def def2(self):
+    def def_etage(self):
         global mauvaisetage
         if mauvaisetage == False:
             mauvaisetage = True
