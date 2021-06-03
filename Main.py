@@ -296,7 +296,7 @@ class Lift():
 
     def CreerLouis(self):
         self.newWindow = tk.Toplevel(self.master)
-        self.DefaillanceLouis = DefaillanceLouis(self.newWindow)
+        self.DefaillanceLouis = DefaillanceLouis(self.newWindow,self.Elevator)
 
     def CreerDefaillance(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -379,7 +379,8 @@ class Lift():
 
 
     def UpdateColor(self):
-        global portes_ouvertes, portes_bloquees
+        global portes_ouvertes, portes_bloquees,curEtage
+        curEtage=self.CurEtage
         #        print "UpdateColor", curMouvement, self.CurEtage
         self.Elevator.check_Changes()
         if curMouvement == '0':
@@ -502,7 +503,7 @@ class Lift():
                     statut = 1
                 else:
                     statut = 0
-            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
+            self.Elevator.Door_To_Red(self.CurEtage, statut)
 
 
         elif curMouvement == '-':
@@ -567,7 +568,7 @@ class Lift():
                     statut = 1
                 else:
                     statut = 0
-            self.Elevator.Door_To_Red(self.CurEtage, portes[statut])
+            self.Elevator.Door_To_Red(self.CurEtage, statut)
 
     def sortir(self):
         global globstop
@@ -908,26 +909,43 @@ class Elevator:
 
 class DefaillanceLouis:
 
-    def __init__(self, master):
+    def __init__(self, master,Elevator):
         self.master = master
         self.frame = tk.Frame(self.master)
+        self.Elevator = Elevator
 
         self.master.title('Defaillances Louis')
 
-        self.button1 = tk.Button(self.frame, text='fermer les portes manuellement', command=self.fPortes)
+        self.button1 = ttk.Button(self.frame, text='fermer les portes manuellement', command=self.fPortes)
         self.button1.pack()
-        self.button2 = tk.Button(self.frame, text='ouvrir les portes manuellement', command=self.ouvPortes)
+        self.button2 = ttk.Button(self.frame, text='ouvrir les portes manuellement', command=self.ouvPortes)
         self.button2.pack()
-        self.button3 = tk.Button(self.frame, text='ouvrir un peu les portes manuellement', command=self.ouvUnPeuPortes)
+        self.button3 = ttk.Button(self.frame, text='ouvrir un peu les portes manuellement', command=self.ouvUnPeuPortes)
         self.button3.pack()
-        self.button4 = tk.Button(self.frame, text='bloquer les portes', command=self.bloquerPortes)
+        self.button4 = ttk.Button(self.frame, text='bloquer les portes', command=self.bloquerPortes)
+        self.button4.configure(style="unchosen_new.TButton")
         self.button4.pack()
-        self.button5 = tk.Button(self.frame, text='debloquer les portes manuellement', command=self.debloquerPortes)
+        self.button5 = ttk.Button(self.frame, text='debloquer les portes manuellement', command=self.debloquerPortes)
         self.button5.pack()
-        self.button6 = tk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',command=self.bougePortesOuvertes)
+        self.button6 = ttk.Button(self.frame, text='l\'ascenceur bouge avec les portes ouvertes',command=self.bougePortesOuvertes)
+        self.button6.configure(style="unchosen_new.TButton")
         self.button6.pack()
+        self.button7 = ttk.Button(self.frame, text='activer / désactiver la défaillance mauvais étage',command=self.def2)
+        self.button7.configure(style="unchosen_new.TButton")
+        self.button7.pack()
 
         self.frame.pack()
+
+        self.frame.pack()
+
+    def def2(self):
+        global mauvaisetage
+        if mauvaisetage == False:
+            mauvaisetage = True
+            self.button7.configure(style="chosen_new.TButton")
+        else:
+            mauvaisetage = False
+            self.button7.configure(style="unchosen_new.TButton")
 
     def fPortes(self):
         global portes_ouvertes, curMouvement
@@ -935,12 +953,28 @@ class DefaillanceLouis:
         if curMouvement=='p':
             curMouvement='0'
 
+            statut = portes[curEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            Elevator.Door_To_Red(self.Elevator,curEtage, statut)
+
+
 
     def ouvPortes(self):
         global portes_ouvertes, curMouvement
         portes_ouvertes = 1
         if curMouvement!='p':
             curMouvement='p'
+            statut = portes[curEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            Elevator.Door_To_Green(self.Elevator,curEtage, statut)
 
 
     def ouvUnPeuPortes(self):
@@ -951,14 +985,23 @@ class DefaillanceLouis:
     def bloquerPortes(self):
         global portes_bloquees
         portes_bloquees = True
+        self.button4.configure(style="chosen_new.TButton")
 
     def debloquerPortes(self):
         global portes_bloquees
         portes_bloquees = False
+        self.button4.configure(style="unchosen_new.TButton")
 
     def bougePortesOuvertes(self):
         global bouge_portes_ouvertes
-        bouge_portes_ouvertes = True
+        if bouge_portes_ouvertes==False :
+            bouge_portes_ouvertes = True
+            self.button6.configure(style="chosen_new.TButton")
+
+        else :
+            bouge_portes_ouvertes = False
+            self.button6.configure(style="unchosen_new.TButton")
+
 
 class DefaillanceElo:
     def __init__(self, master):
@@ -967,7 +1010,7 @@ class DefaillanceElo:
 
         self.master.title('Defaillances Eloïse')
 
-        self.button2 = tk.Button(self.frame, text='activer / désactiver la défaillance mauvais étage', command=self.def2)
+        self.button2 = ttk.Button(self.frame, text='activer / désactiver la défaillance mauvais étage', command=self.def2)
         self.button2.pack()
 
         self.frame.pack()
@@ -976,8 +1019,11 @@ class DefaillanceElo:
         global mauvaisetage
         if mauvaisetage==False:
             mauvaisetage = True
+            self.button2.configure(style="chosen_new.TButton")
         else:
             mauvaisetage=False
+            self.button2.configure(style="unchosen_new.TButton")
+
 
 class Double_porte_Elio :
 
