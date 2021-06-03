@@ -4,7 +4,6 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import sys
 from random import randint
-import Eloïse
 
 import threading
 
@@ -91,7 +90,6 @@ class Lift():
         self.CreerElevator()
         self.CreerLouis()
         self.CreerPortes()
-        # self.CreerDefaillance()
 
         self.buttonA = tk.Button(self.frame, text='Alarm')
         self.buttonA.pack()
@@ -280,10 +278,7 @@ class Lift():
 
     def CreerEtage(self):
         self.newWindow = tk.Toplevel(self.master)
-        if mauvaisetage == True:
-            self.Etages = Eloïse.Etages(self.newWindow, self)
-        else:
-            self.Etages = Etages(self.newWindow, self)
+        self.Etages = Etages(self.newWindow, self)
 
     def CreerPortes(self):
         self.newWindow = tk.Toplevel(self.master)
@@ -296,7 +291,7 @@ class Lift():
 
     def CreerLouis(self):
         self.newWindow = tk.Toplevel(self.master)
-        self.DefaillanceLouis = DefaillanceLouis(self.newWindow,self.Elevator,descente_impossible)
+        self.DefaillanceLouis = Defaillance_Louis_Eloise_Jules(self.newWindow,self.Elevator,descente_impossible)
 
     # def CreerDefaillance(self):
     #     self.newWindow = tk.Toplevel(self.master)
@@ -926,7 +921,7 @@ class Elevator:
                     self.button5_front.configure(style="blank.TButton")
 
 
-class DefaillanceLouis():
+class Defaillance_Louis_Eloise_Jules():
 
     def __init__(self, master,Elevator,descente_impossible):
         self.master = master
