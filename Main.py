@@ -333,8 +333,8 @@ class Lift():
             #print("CurPos: ", self.CurPos, "  /  CurServed: ", self.CurServed)
             #print("target ", self.target)
 
-            if curMouvement == 'p':
-                curMouvement = '0'
+            # if curMouvement == 'p' and self.CurTempo == 50:
+            #     curMouvement = '0'
 
             if curMouvement == '0':
                 if self.target[self.CurServed] > 0:
@@ -956,15 +956,25 @@ class DefaillanceLouis():
         self.frame_Jules.configure(highlightbackground="white", highlightthickness=2)
         self.display_Jules = tk.Label(self.frame_Jules, text='  Défaillances mouvement  ', background='light grey',height=2, font=("Arial", 12, 'bold'))
         self.display_Jules.pack(fill='x')
-        self.buttonDesactivation = tk.Button(self.frame_Jules, text='Désactiver descente',command=descente_impossible.activate)
-        self.buttonDesactivation.pack()
-        self.buttonActivation = tk.Button(self.frame_Jules, text='Activer descente', command=descente_impossible.desactivate)
-        self.buttonActivation.pack()
+        self.buttonDesactivation = ttk.Button(self.frame_Jules, text='Désactiver descente',command=self.desc_desactivate)
+        self.buttonDesactivation.pack(fill='x')
+        self.buttonActivation = ttk.Button(self.frame_Jules, text='Activer descente', command=self.desc_activate)
+        self.buttonActivation.pack(fill='x')
         self.frame_Jules.pack(fill='x')
 
         self.frame_Eloise_Jules.grid(row=0, column=0, sticky='nw')
 
         self.frame.pack()
+
+        self.desc_activate()
+
+    def desc_desactivate(self):
+        descente_impossible.activate()
+        Double_porte_Elio.button_color(self,self.buttonDesactivation,self.buttonActivation)
+
+    def desc_activate(self):
+        descente_impossible.desactivate()
+        Double_porte_Elio.button_color(self,self.buttonActivation,self.buttonDesactivation)
 
     def def2(self):
         global mauvaisetage
