@@ -114,7 +114,7 @@ class Lift():
 
         self.frame.pack()
 
-        self.CurEtage = 5
+        self.CurEtage = 1
         self.target = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.CurPos = 0
         self.CurServed = 0
@@ -122,56 +122,41 @@ class Lift():
 
     def Aller5(self):
         if mauvaisetage:
-            if self.CurPos < 10:
-                self.target[self.CurPos] = 4
+            target=4
+        else:
+            target=5
+        if descente_impossible.status() == "enable":
+            if self.CurEtage <= 5:
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
-        if descente_impossible.status() == "enable":
-            if self.CurEtage > 5:
-                self.CurPos = self.CurPos + 1
-                if self.CurPos == 10:
-                    self.CurPos = 0
-            else:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 5
-                    self.ordrePriorite()
-                    self.CurPos = self.CurPos + 1
-                    if self.CurPos == 10:
-                        self.CurPos = 0
         else:
             if self.CurPos < 10:
-                self.target[self.CurPos] = 5
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
 
     def Aller4(self):
+
         if mauvaisetage:
-            if self.CurPos < 10:
-                self.target[self.CurPos] = 3
+            target=3
+        else:
+            target=4
+        if descente_impossible.status() == "enable":
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage <= 4:
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
-        if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
-            if self.CurEtage > 4:
-                self.CurPos = self.CurPos + 1
-                if self.CurPos == 10:
-                    self.CurPos = 0
-            else:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 4
-                    self.ordrePriorite()
-                    self.CurPos = self.CurPos + 1
-                    if self.CurPos == 10:
-                        self.CurPos = 0
         else:
             if self.CurPos < 10:
-                self.target[self.CurPos] = 4
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -179,28 +164,20 @@ class Lift():
 
     def Aller3(self):
         if mauvaisetage:
-            if self.CurPos < 10:
-                self.target[self.CurPos] = 2
+            target=2
+        else:
+            target=3
+        if descente_impossible.status() == "enable":
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage <= 3:
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
-        if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
-            if self.CurEtage > 3:
-                self.CurPos = self.CurPos + 1
-                if self.CurPos == 10:
-                    self.CurPos = 0
-            else:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 3
-                    self.ordrePriorite()
-                    self.CurPos = self.CurPos + 1
-                    if self.CurPos == 10:
-                        self.CurPos = 0
         else:
             if self.CurPos < 10:
-                self.target[self.CurPos] = 3
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -208,28 +185,20 @@ class Lift():
 
     def Aller2(self):
         if mauvaisetage:
-            if self.CurPos < 10:
-                self.target[self.CurPos] = 1
+            target=1
+        else:
+            target=2
+        if descente_impossible.status() == "enable":
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage <= 2:
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
-        if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
-            if self.CurEtage > 2:
-                self.CurPos = self.CurPos + 1
-                if self.CurPos == 10:
-                    self.CurPos = 0
-            else:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 2
-                    self.ordrePriorite()
-                    self.CurPos = self.CurPos + 1
-                    if self.CurPos == 10:
-                        self.CurPos = 0
         else:
             if self.CurPos < 10:
-                self.target[self.CurPos] = 2
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
@@ -237,28 +206,20 @@ class Lift():
 
     def Aller1(self):
         if mauvaisetage:
-            if self.CurPos < 10:
-                self.target[self.CurPos] = 5
+            target=5
+        else:
+            target=1
+        if descente_impossible.status() == "enable":
+            print(self.CurEtage, self.target[self.CurPos])
+            if self.CurEtage <= 1:
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
                     self.CurPos = 0
-        if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
-            if self.CurEtage > 1:
-                self.CurPos = self.CurPos + 1
-                if self.CurPos == 10:
-                    self.CurPos = 0
-            else:
-                if self.CurPos < 10:
-                    self.target[self.CurPos] = 1
-                    self.ordrePriorite()
-                    self.CurPos = self.CurPos + 1
-                    if self.CurPos == 10:
-                        self.CurPos = 0
         else:
             if self.CurPos < 10:
-                self.target[self.CurPos] = 1
+                self.target[self.CurPos] = target
                 self.ordrePriorite()
                 self.CurPos = self.CurPos + 1
                 if self.CurPos == 10:
