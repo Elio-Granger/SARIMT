@@ -297,7 +297,7 @@ class Lift():
             #print("curEtage ", self.CurEtage)
             # print("CurTempo"+self.CurTempo)
             #print("CurPos: ", self.CurPos, "  /  CurServed: ", self.CurServed)
-            #print("target ", self.target)
+            print("target ", self.target)
 
             # if curMouvement == 'p' and self.CurTempo == 50:
             #     curMouvement = '0'
