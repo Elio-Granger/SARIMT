@@ -54,11 +54,11 @@ class descente_impossible():
 
     def activate(self):
         self.activation = "enable"
-        print('activée')
+        #print('activée')
 
     def desactivate(self):
         self.activation = "disable"
-        print('desactivée')
+        #print('desactivée')
 
     def status(self):
         return self.activation
@@ -147,7 +147,7 @@ class Lift():
         else:
             target=4
         if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
+            #print(self.CurEtage, self.target[self.CurPos])
             if self.CurEtage <= 4:
                 self.target[self.CurPos] = target
                 self.ordrePriorite()
@@ -168,7 +168,7 @@ class Lift():
         else:
             target=3
         if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
+            #print(self.CurEtage, self.target[self.CurPos])
             if self.CurEtage <= 3:
                 self.target[self.CurPos] = target
                 self.ordrePriorite()
@@ -189,7 +189,7 @@ class Lift():
         else:
             target=2
         if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
+            #print(self.CurEtage, self.target[self.CurPos])
             if self.CurEtage <= 2:
                 self.target[self.CurPos] = target
                 self.ordrePriorite()
@@ -210,7 +210,7 @@ class Lift():
         else:
             target=1
         if descente_impossible.status() == "enable":
-            print(self.CurEtage, self.target[self.CurPos])
+            #print(self.CurEtage, self.target[self.CurPos])
             if self.CurEtage <= 1:
                 self.target[self.CurPos] = target
                 self.ordrePriorite()
@@ -297,7 +297,7 @@ class Lift():
             #print("curEtage ", self.CurEtage)
             # print("CurTempo"+self.CurTempo)
             #print("CurPos: ", self.CurPos, "  /  CurServed: ", self.CurServed)
-            print("target ", self.target)
+            #print("target ", self.target)
 
             # if curMouvement == 'p' and self.CurTempo == 50:
             #     curMouvement = '0'
@@ -1023,7 +1023,18 @@ class Defaillance_Louis_Eloise_Jules():
 
 
     def ouvUnPeuPortes(self):
-        global portes_ouvertes, PORTES_UN_PEU_OUVERTES
+        global portes_ouvertes, curMouvement, CurTempo, PORTES_UN_PEU_OUVERTES
+        CurTempo = 0
+        if curMouvement != 'p':
+            curMouvement = 'p'
+            statut = portes[curEtage - 1]
+            if mauvaisePorte == True:
+                if statut == 0:
+                    statut = 1
+                else:
+                    statut = 0
+            Elevator.Door_To_Green(self.Elevator, curEtage, statut)
+
         portes_ouvertes = PORTES_UN_PEU_OUVERTES
         print("portes ouvertes à " + str(PORTES_UN_PEU_OUVERTES * 100) + "%")
 
