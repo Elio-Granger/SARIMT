@@ -16,6 +16,7 @@ AUTORISATION_PORTES_OUVERTES = 0.0025  # on considère que les portes s'ouvrent 
 bouge_portes_ouvertes = False
 mauvaisePorte = False
 curMouvement='0'
+CurTempo = 0
 
 class MyTimer:
     global globstop
@@ -45,6 +46,8 @@ class MyTimer:
     def stop(self):
         self._timer.cancel()
 
+
+
 class descente_impossible():
     def __init__(self):
         self.activation = "disable"
@@ -61,6 +64,7 @@ class descente_impossible():
         return self.activation
 
 
+
 class defaillance(descente_impossible):
     def __init__(self, master, descente_impossible):
         self.master = master
@@ -74,6 +78,8 @@ class defaillance(descente_impossible):
         self.frame.pack()
 
 descente_impossible = descente_impossible()
+
+
 
 
 class Lift():
@@ -109,11 +115,9 @@ class Lift():
         self.frame.pack()
 
         self.CurEtage = 5
-        curMouvement = '0'
         self.target = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.CurPos = 0
         self.CurServed = 0
-        self.CurTempo = 0
         self.UpdateColor()
 
     def Aller5(self):
@@ -298,9 +302,15 @@ class Lift():
     #     self.defaillance = defaillance(self.newWindow, descente_impossible)
 
     def move(self):
-        global portes_ouvertes, bouge_portes_ouvertes, curMouvement
+        global portes_ouvertes, bouge_portes_ouvertes, curMouvement, CurTempo
 
-        self.UpdateColor()
+        if portes_bloquees == False:
+            self.UpdateColor()
+        else:
+            if portes_ouvertes < AUTORISATION_PORTES_OUVERTES:
+                self.doorRed()
+            else:
+                self.doorGreen()
 
         # comment out for exam
         #print("curMouvement "+curMouvement)
@@ -318,10 +328,11 @@ class Lift():
 
       #  if curMouvement == '+' or curMouvement == '-' or curMouvement == 'p':
 
-        self.CurTempo = self.CurTempo + 1
+        CurTempo = CurTempo + 1
 
-        if self.CurTempo == 50 or self.CurTempo == 0:  # permet de donner une notion de temps entre les etages
+        if CurTempo == 50 or CurTempo == 0:  # permet de donner une notion de temps entre les etages
 
+            print(portes_bloquees)
             #print("curMouvement " + curMouvement)
             #print("curEtage ", self.CurEtage)
             # print("CurTempo"+self.CurTempo)
@@ -335,10 +346,12 @@ class Lift():
                 if self.target[self.CurServed] > 0:
                     if self.CurEtage < self.target[self.CurServed]:
                         curMouvement = '+'
-                        self.UpdateColor()
+                        if portes_bloquees==False:
+                            self.UpdateColor()
                     if self.CurEtage > self.target[self.CurServed]:
                         curMouvement = '-'
-                        self.UpdateColor()
+                        if portes_bloquees == False:
+                            self.UpdateColor()
                     if self.target[self.CurServed] == self.CurEtage:
                         self.CurServed = self.CurServed + 1
                         if self.CurServed == 10:
@@ -352,10 +365,12 @@ class Lift():
                     if self.target[self.CurServed] > 0:
                         if self.CurEtage < self.target[self.CurServed]:
                             curMouvement = '+'
-                            self.UpdateColor()
+                            if portes_bloquees == False:
+                                self.UpdateColor()
                         if self.CurEtage > self.target[self.CurServed]:
                             curMouvement = '-'
-                            self.UpdateColor()
+                            if portes_bloquees == False:
+                                self.UpdateColor()
                         if self.target[self.CurServed] == self.CurEtage:
                             self.CurServed = self.CurServed + 1
                             if self.CurServed == 10:
@@ -383,48 +398,25 @@ class Lift():
                             self.CurServed = 0
                                 # self.target[self.CurServed] = randint(0, 5)    #pas compris cette ligne
 
-            self.UpdateColor()
-            self.CurTempo = 0
+            if portes_bloquees == False:
+                self.UpdateColor()
+            else:
+                if portes_ouvertes<AUTORISATION_PORTES_OUVERTES:
+                    self.doorRed()
+                else:
+                    self.doorGreen()
+            CurTempo = 0
 
 
     def UpdateColor(self):
-        global portes_ouvertes, portes_bloquees,curEtage,curMouvement
+        global portes_ouvertes, portes_bloquees,curEtage,curMouvement, CurTempo
         curEtage=self.CurEtage
         #        print "UpdateColor", curMouvement, self.CurEtage
         self.Elevator.check_Changes()
         if curMouvement == '0':
             if portes_bloquees==False:
                 portes_ouvertes=0
-            if self.CurEtage == 1:
-                self.Elevator.rouge1()
-                self.Elevator.noir2()
-                self.Elevator.noir3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 2:
-                self.Elevator.noir1()
-                self.Elevator.rouge2()
-                self.Elevator.noir3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 3:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.rouge3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 4:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.noir3()
-                self.Elevator.rouge4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 5:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.noir3()
-                self.Elevator.noir4()
-                self.Elevator.rouge5()
+            self.doorRed()
 
             statut = portes[self.CurEtage - 1]
             if mauvaisePorte == True:
@@ -437,37 +429,8 @@ class Lift():
         elif curMouvement == 'p':
             if portes_bloquees==False:
                 portes_ouvertes=1
-            if self.CurEtage == 1:
-                self.Elevator.vert1()
-                self.Elevator.noir2()
-                self.Elevator.noir3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 2:
-                self.Elevator.noir1()
-                self.Elevator.vert2()
-                self.Elevator.noir3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 3:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.vert3()
-                self.Elevator.noir4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 4:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.noir3()
-                self.Elevator.vert4()
-                self.Elevator.noir5()
-            elif self.CurEtage == 5:
-                self.Elevator.noir1()
-                self.Elevator.noir2()
-                self.Elevator.noir3()
-                self.Elevator.noir4()
-                self.Elevator.vert5()
-            if(portes_ouvertes >= AUTORISATION_PORTES_OUVERTES and bouge_portes_ouvertes == False and (self.CurTempo == 25 or self.CurTempo == 75)) :
+            self.doorGreen()
+            if(portes_ouvertes >= AUTORISATION_PORTES_OUVERTES and bouge_portes_ouvertes == False and (CurTempo == 25 or CurTempo == 75)) :
 
                 curMouvement='0'
 
@@ -583,6 +546,70 @@ class Lift():
                     statut = 0
             self.Elevator.Door_To_Red(self.CurEtage, statut)
 
+
+    def doorGreen(self):
+        if self.CurEtage == 1:
+            self.Elevator.vert1()
+            self.Elevator.noir2()
+            self.Elevator.noir3()
+            self.Elevator.noir4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 2:
+            self.Elevator.noir1()
+            self.Elevator.vert2()
+            self.Elevator.noir3()
+            self.Elevator.noir4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 3:
+            self.Elevator.noir1()
+            self.Elevator.noir2()
+            self.Elevator.vert3()
+            self.Elevator.noir4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 4:
+            self.Elevator.noir1()
+            self.Elevator.noir2()
+            self.Elevator.noir3()
+            self.Elevator.vert4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 5:
+            self.Elevator.noir1()
+            self.Elevator.noir2()
+            self.Elevator.noir3()
+            self.Elevator.noir4()
+            self.Elevator.vert5()
+
+    def doorRed(self):
+        if self.CurEtage == 1:
+            self.Elevator.rouge1()
+            self.Elevator.noir2()
+            self.Elevator.noir3()
+            self.Elevator.noir4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 2:
+            self.Elevator.noir1()
+            self.Elevator.rouge2()
+            self.Elevator.noir3()
+            self.Elevator.noir4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 3:
+            self.Elevator.noir1()
+            self.Elevator.noir2()
+            self.Elevator.rouge3()
+            self.Elevator.noir4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 4:
+            self.Elevator.noir1()
+            self.Elevator.noir2()
+            self.Elevator.noir3()
+            self.Elevator.rouge4()
+            self.Elevator.noir5()
+        elif self.CurEtage == 5:
+            self.Elevator.noir1()
+            self.Elevator.noir2()
+            self.Elevator.noir3()
+            self.Elevator.noir4()
+            self.Elevator.rouge5()
 
     def sortir(self):
         global globstop
@@ -1000,8 +1027,9 @@ class Defaillance_Louis_Eloise_Jules():
             self.button7.configure(style="unchosen_new.TButton")
 
     def fPortes(self):
-        global portes_ouvertes, curMouvement
+        global portes_ouvertes, curMouvement, CurTempo
         portes_ouvertes = 0
+        CurTempo = 0
         if curMouvement=='p':
             curMouvement='0'
 
@@ -1016,8 +1044,9 @@ class Defaillance_Louis_Eloise_Jules():
 
 
     def ouvPortes(self):
-        global portes_ouvertes, curMouvement
+        global portes_ouvertes, curMouvement, CurTempo
         portes_ouvertes = 1
+        CurTempo=0
         if curMouvement!='p':
             curMouvement='p'
             statut = portes[curEtage - 1]
