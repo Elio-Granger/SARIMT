@@ -332,7 +332,6 @@ class Lift():
 
         if CurTempo == 50 or CurTempo == 0:  # permet de donner une notion de temps entre les etages
 
-            print(portes_bloquees)
             #print("curMouvement " + curMouvement)
             #print("curEtage ", self.CurEtage)
             # print("CurTempo"+self.CurTempo)
@@ -418,21 +417,12 @@ class Lift():
                 portes_ouvertes=0
             self.doorRed()
 
-            statut = portes[self.CurEtage - 1]
-            if mauvaisePorte == True:
-                if statut == 0:
-                    statut = 1
-                else:
-                    statut = 0
-            self.Elevator.Door_To_Red(self.CurEtage, statut)
 
         elif curMouvement == 'p':
             if portes_bloquees==False:
                 portes_ouvertes=1
             self.doorGreen()
-            if(portes_ouvertes >= AUTORISATION_PORTES_OUVERTES and bouge_portes_ouvertes == False and (CurTempo == 25 or CurTempo == 75)) :
 
-                curMouvement='0'
 
 
             statut = portes[self.CurEtage - 1]
@@ -548,6 +538,7 @@ class Lift():
 
 
     def doorGreen(self):
+        global curMouvement
         if self.CurEtage == 1:
             self.Elevator.vert1()
             self.Elevator.noir2()
@@ -578,6 +569,10 @@ class Lift():
             self.Elevator.noir3()
             self.Elevator.noir4()
             self.Elevator.vert5()
+
+        if (portes_ouvertes >= AUTORISATION_PORTES_OUVERTES and bouge_portes_ouvertes == False and (
+                CurTempo == 25 or CurTempo == 75)):
+            curMouvement = '0'
 
     def doorRed(self):
         if self.CurEtage == 1:
@@ -610,6 +605,14 @@ class Lift():
             self.Elevator.noir3()
             self.Elevator.noir4()
             self.Elevator.rouge5()
+
+        statut = portes[self.CurEtage - 1]
+        if mauvaisePorte == True:
+            if statut == 0:
+                statut = 1
+            else:
+                statut = 0
+        self.Elevator.Door_To_Red(self.CurEtage, statut)
 
     def sortir(self):
         global globstop
